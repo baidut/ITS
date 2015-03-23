@@ -80,10 +80,24 @@ void MainWindow::on_pushButton_reduceColor_clicked()
     if (ok){
         int nl = image.rows;
         int nc = image.cols*image.channels();
-        for(int j=0;j<nl;j++) {
-            uchar* data = image.ptr<uchar>(j);
-            for(int i=0;i<nc;i++){
-                data[i] = data[i]/div*div + div/2;
+        // 以下写法从速度考虑
+        if( 0 == ( div & (div - 1) )){ // 快速判断2的整数幂 http://blog.csdn.net/hackbuteer1/article/details/6681157
+            int x = 0,tmp = div;
+            while(tmp>1){tmp >>= 1;x++;} // x = log2(div)
+            uchar mask = 0xFF << x;
+            for(int j=0;j<nl;j++) {
+                uchar* data = image.ptr<uchar>(j);
+                for(int i=0;i<nc;i++)
+                    data[i] = (data[i]&mask) + div/2;
+            }
+        }
+        else{
+            for(int j=0;j<nl;j++) {
+                uchar* data = image.ptr<uchar>(j);
+                for(int i=0;i<nc;i++){
+                    data[i] = data[i]/div*div + div/2;
+                    // 等价： = data[i] - data[i]%div + div/2 较慢
+                }
             }
         }
         emit imageChanged();
