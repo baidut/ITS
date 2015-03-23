@@ -63,11 +63,17 @@ void MainWindow::on_pushButton_salt_clicked()
 }
 
 void MainWindow::on_image_changed(){
+    QImage img;
     cv::Mat imageRGB;
-    cv::cvtColor(image,imageRGB,CV_BGR2RGB);
-    QImage img = QImage((const unsigned char*)(imageRGB.data),
-                        image.cols,image.rows,QImage::Format_RGB888);
-
+    if(1==image.channels()){
+        img = QImage((const unsigned char*)(image.data),
+                            image.cols,image.rows,QImage::Format_Indexed8);
+    }
+    else{
+        cv::cvtColor(image,imageRGB,CV_BGR2RGB);
+        img = QImage((const unsigned char*)(imageRGB.data),
+                            image.cols,image.rows,QImage::Format_RGB888);
+    }
     ui->label_img->setPixmap(QPixmap::fromImage(img));
     ui->label_img->resize(ui->label_img->pixmap()->size());
 }
@@ -81,6 +87,8 @@ void MainWindow::on_pushButton_reduceColor_clicked()
         int nl = image.rows;
         int nc = image.cols*image.channels();
         // 以下写法从速度考虑
+        // 如果图像没有在行尾填补像素，则是连续的一维数组，遍历更快。 由于可能用到二维空间信息，这里不采用reshape降低维度
+        if(image.isContinuous()){nc = nc*nl;nl=1;}
         if( 0 == ( div & (div - 1) )){ // 快速判断2的整数幂 http://blog.csdn.net/hackbuteer1/article/details/6681157
             int x = 0,tmp = div;
             while(tmp>1){tmp >>= 1;x++;} // x = log2(div)
@@ -102,4 +110,35 @@ void MainWindow::on_pushButton_reduceColor_clicked()
         }
         emit imageChanged();
     }
+}
+
+void MainWindow::on_pushButton_sharpen_clicked()
+{
+    // 这里必须再构建一个图像先
+    // 锐化是基于灰度图片的，如果不是，先转为灰度图
+    cv::Mat result;
+    result.create(image.rows,image.cols,image.type()); // 书中错误 result.create(image.size(),image.type());
+    for(int j=1;j<image.rows-1;j++){ // 外循环是列，这样效率高
+        const uchar* previous = image.ptr<const uchar>(j-1);
+        const uchar* current = image.ptr<const uchar>(j);
+        const uchar* next = image.ptr<const uchar>(j+1);
+        uchar* output = result.ptr<uchar>(j);
+        for(int i=1;i<image.cols-1;i++){
+            *output++= cv::saturate_cast<uchar>(
+                        5*current[i]-current[i-1]
+                        -current[i+1]-previous[i]-next[i]);
+        }
+    }
+    result.row(0).setTo(cv::Scalar(0));
+    result.row(result.rows-1).setTo(cv::Scalar(0));
+    result.col(0).setTo(cv::Scalar(0));
+    result.col(result.cols-1).setTo(cv::Scalar(0));
+    image = result.clone(); // 深复制
+    emit imageChanged();
+}
+
+void MainWindow::on_pushButton_gray_clicked()
+{
+    cv::cvtColor(image,image,CV_BGR2GRAY);
+    emit imageChanged();
 }

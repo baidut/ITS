@@ -27,6 +27,10 @@ private slots:
 
     void on_pushButton_reduceColor_clicked();
 
+    void on_pushButton_sharpen_clicked();
+
+    void on_pushButton_gray_clicked();
+
 signals:
     void imageChanged();
 
