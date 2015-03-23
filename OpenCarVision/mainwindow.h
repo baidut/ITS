@@ -31,6 +31,8 @@ private slots:
 
     void on_pushButton_gray_clicked();
 
+    void on_pushButton_sharpen2D_clicked();
+
 signals:
     void imageChanged();
 

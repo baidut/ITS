@@ -142,3 +142,15 @@ void MainWindow::on_pushButton_gray_clicked()
     cv::cvtColor(image,image,CV_BGR2GRAY);
     emit imageChanged();
 }
+
+void MainWindow::on_pushButton_sharpen2D_clicked()
+{
+    cv::Mat kernel(3,3,CV_32F,cv::Scalar(0));
+    kernel.at<float>(1,1) = 5.0;
+    kernel.at<float>(0,1) = -1.0;
+    kernel.at<float>(2,1) = -1.0;
+    kernel.at<float>(1,0) = -1.0;
+    kernel.at<float>(1,2) = -1.0;
+    cv::filter2D(image,image,image.depth(),kernel);
+    emit imageChanged();
+}
