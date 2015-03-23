@@ -154,3 +154,21 @@ void MainWindow::on_pushButton_sharpen2D_clicked()
     cv::filter2D(image,image,image.depth(),kernel);
     emit imageChanged();
 }
+
+void MainWindow::on_pushButton_blur_clicked()
+{
+    cv::blur(image,image,cv::Size(5,5));
+    emit imageChanged();
+}
+
+void MainWindow::on_pushButton_gaussianBlur_clicked()
+{
+    cv::GaussianBlur(image,image,cv::Size(5,5),1.5);
+    emit imageChanged();
+}
+
+void MainWindow::on_pushButton_medianBlur_clicked()
+{
+    cv::medianBlur(image,image,5);
+    emit imageChanged();
+}

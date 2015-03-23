@@ -15,36 +15,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0" colspan="3">
-     <widget class="QLabel" name="label_img">
-      <property name="text">
-       <string>Image</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="title">
-       <string>For Gray</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton_sharpen">
-         <property name="text">
-          <string>Sharpen</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_sharpen2D">
-         <property name="text">
-          <string>Sharpen2D</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="0" column="1">
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
@@ -82,6 +52,29 @@
       </layout>
      </widget>
     </item>
+    <item row="0" column="3">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>For Gray</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButton_sharpen">
+         <property name="text">
+          <string>Sharpen</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton_sharpen2D">
+         <property name="text">
+          <string>Sharpen2D</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QGroupBox" name="groupBox_3">
       <property name="title">
@@ -99,6 +92,43 @@
         <widget class="QPushButton" name="pushButton">
          <property name="text">
           <string>Reload Image</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="4">
+     <widget class="QLabel" name="label_img">
+      <property name="text">
+       <string>Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Filtering</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton_blur">
+         <property name="text">
+          <string>Blur</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_gaussianBlur">
+         <property name="text">
+          <string>Gaussian Blur</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_medianBlur">
+         <property name="text">
+          <string>Median Blur</string>
          </property>
         </widget>
        </item>

@@ -33,6 +33,12 @@ private slots:
 
     void on_pushButton_sharpen2D_clicked();
 
+    void on_pushButton_blur_clicked();
+
+    void on_pushButton_gaussianBlur_clicked();
+
+    void on_pushButton_medianBlur_clicked();
+
 signals:
     void imageChanged();
 
