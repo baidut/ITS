@@ -25,8 +25,10 @@ void MainWindow::on_pushButton_open_clicked()
     qDebug()<<"filenames:"<<fileName;
     // QString转char* qstr.toLatin1().data()
     image = cv::imread(fileName.toLatin1().data()); //fileName.toAscii().data()
-    cv::namedWindow(fileName.toLatin1().data(),CV_WINDOW_AUTOSIZE);
-    cv::imshow(fileName.toLatin1().data(), image);
+
+    emit imageChanged();
+    //cv::namedWindow(fileName.toLatin1().data(),CV_WINDOW_AUTOSIZE);
+    //cv::imshow(fileName.toLatin1().data(), image);
 }
 
 void MainWindow::on_pushButton_flip_clicked()
@@ -55,16 +57,35 @@ void MainWindow::on_pushButton_salt_clicked()
                     image.at<cv::Vec3b>(j,i)[2] = 255;break;
             default: break;
             }
-            emit imageChanged();
         }
+        emit imageChanged();
     }
 }
 
 void MainWindow::on_image_changed(){
-    cv::cvtColor(image,image,CV_BGR2RGB);
-    QImage img = QImage((const unsigned char*)(image.data),
+    cv::Mat imageRGB;
+    cv::cvtColor(image,imageRGB,CV_BGR2RGB);
+    QImage img = QImage((const unsigned char*)(imageRGB.data),
                         image.cols,image.rows,QImage::Format_RGB888);
 
     ui->label_img->setPixmap(QPixmap::fromImage(img));
     ui->label_img->resize(ui->label_img->pixmap()->size());
+}
+
+void MainWindow::on_pushButton_reduceColor_clicked()
+{
+    bool ok;
+    int div = QInputDialog::getInt(this,tr("DIV"),tr("Please input:"),
+                                     64,1,128,1,&ok); // 旧版本可能是getInteger
+    if (ok){
+        int nl = image.rows;
+        int nc = image.cols*image.channels();
+        for(int j=0;j<nl;j++) {
+            uchar* data = image.ptr<uchar>(j);
+            for(int i=0;i<nc;i++){
+                data[i] = data[i]/div*div + div/2;
+            }
+        }
+        emit imageChanged();
+    }
 }

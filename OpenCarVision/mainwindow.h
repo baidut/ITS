@@ -25,6 +25,8 @@ private slots:
     void on_pushButton_salt_clicked();
     void on_image_changed();
 
+    void on_pushButton_reduceColor_clicked();
+
 signals:
     void imageChanged();
 
