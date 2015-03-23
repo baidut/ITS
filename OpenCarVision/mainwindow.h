@@ -22,6 +22,8 @@ public:
 private slots:
     void on_pushButton_open_clicked();
 
+    void on_pushButton_flip_clicked();
+
 private:
     Ui::MainWindow *ui; 
     cv::Mat image;

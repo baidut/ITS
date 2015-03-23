@@ -4,6 +4,8 @@ report
 tmp
 build-OpenCarVision-Desktop_Qt_5_2_1_MinGW_32bit-Debug
 build-OpenCarVision-Desktop_Qt_5_2_1_MinGW_32bit-Release
+*.autosave
+OpenCarVison\OpenCarVison.pro.user
 
 # Windows image file caches
 Thumbs.db
