@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QInputDialog>
 
+#include <linefinder.h>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -181,30 +183,16 @@ void MainWindow::on_pushButton_canny_clicked()
 
 void MainWindow::on_pushButton_hough_clicked()
 {
-#define PI 3.1415926
-    std::vector<cv::Vec2f>lines;
-    cv::HoughLines(image,lines,1,PI/180,80);
-    cv::Mat result;
-    result.create(image.rows,image.cols,image.type());
+    LineFinder finder;
+    finder.setLineLengthAndGap(100,20);
+    finder.setMinVote(80);
 
-    std::vector<cv::Vec2f>::const_iterator it = lines.begin();
-    while(it!=lines.end()){
-        float rho = (*it)[0];
-        float theta = (*it)[1];
-        if(theta < PI/4.
-                || theta>3. * PI/4.) {
-            cv::Point pt1(rho/cos(theta),0);
-            cv::Point pt2((rho-result.rows*sin(theta))/
-                          cos(theta),result.rows);
-            cv::line(image,pt1,pt2,cv::Scalar(255),1);
-        }else {
-            cv::Point pt1(0,rho/sin(theta));
-            cv::Point pt2(result.cols,
-                           (rho-result.cols*cos(theta))/sin(theta));
-            cv::line(image,pt1,pt2,cv::Scalar(255),1);
-        }
-        ++it;
-    }
-    image = result.clone();
-    emit imageChanged();
+    cv::Mat contours;
+    cv::Canny(image,contours,125,350);
+
+    std::vector<cv::Vec4i>lines = finder.findLines(contours);
+    finder.drawDetectedLines(image);
+    cv::namedWindow("Dectected Lines with HoughP");
+    cv::imshow("Detected Lines with HoughP",image);
+    //emit imageChanged();
 }
