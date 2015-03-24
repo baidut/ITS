@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(this,SIGNAL(imageChanged()),this,SLOT(on_image_changed()));
+    connect(this,SIGNAL(imageProcessed()),this,SLOT(on_image_processed()));
 }
 
 MainWindow::~MainWindow()
@@ -78,6 +79,22 @@ void MainWindow::on_image_changed(){
     }
     ui->label_img->setPixmap(QPixmap::fromImage(img));
     ui->label_img->resize(ui->label_img->pixmap()->size());
+}
+
+void MainWindow::on_image_processed(){
+    QImage img;
+    cv::Mat imageRGB;
+    if(1==imgProc.channels()){
+        img = QImage((const unsigned char*)(imgProc.data),
+                            imgProc.cols,imgProc.rows,QImage::Format_Indexed8);
+    }
+    else{
+        cv::cvtColor(imgProc,imageRGB,CV_BGR2RGB);
+        img = QImage((const unsigned char*)(imageRGB.data),
+                            imgProc.cols,imgProc.rows,QImage::Format_RGB888);
+    }
+    ui->label_imgProc->setPixmap(QPixmap::fromImage(img));
+    ui->label_imgProc->resize(ui->label_img->pixmap()->size());
 }
 
 void MainWindow::on_pushButton_reduceColor_clicked()
@@ -177,8 +194,8 @@ void MainWindow::on_pushButton_medianBlur_clicked()
 
 void MainWindow::on_pushButton_canny_clicked()
 {
-    cv::Canny(image,image,125,350);
-    emit imageChanged();
+    cv::Canny(image,imgProc,ui->doubleSpinBox_threshold1->value(),ui->doubleSpinBox_threshold2->value());
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_hough_clicked()

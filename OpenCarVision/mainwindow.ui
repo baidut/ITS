@@ -161,13 +161,6 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_img">
-      <property name="text">
-       <string>Image</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="3">
      <widget class="QGroupBox" name="groupBox_6">
       <property name="title">
@@ -186,6 +179,52 @@
         <string>Canny</string>
        </property>
       </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold1">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>62</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>125.000000000000000</double>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>62</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>350.000000000000000</double>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="3">
+     <widget class="QLabel" name="label_img">
+      <property name="text">
+       <string>Image</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3" colspan="3">
+     <widget class="QLabel" name="label_imgProc">
+      <property name="text">
+       <string>ImageProcessed</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -212,5 +251,38 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>doubleSpinBox_threshold1</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>pushButton_canny</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>387</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>387</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox_threshold2</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>pushButton_canny</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>409</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>414</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

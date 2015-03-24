@@ -24,6 +24,7 @@ private slots:
     void on_pushButton_flip_clicked();
     void on_pushButton_salt_clicked();
     void on_image_changed();
+    void on_image_processed();
 
     void on_pushButton_reduceColor_clicked();
 
@@ -45,10 +46,12 @@ private slots:
 
 signals:
     void imageChanged();
+    void imageProcessed();
 
 private:
     Ui::MainWindow *ui; 
     cv::Mat image;
+    cv::Mat imgProc;
 };
 
 #endif // MAINWINDOW_H
