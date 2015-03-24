@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
-    <height>344</height>
+    <width>672</width>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,6 +15,69 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="2">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Filtering</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton_blur">
+         <property name="text">
+          <string>Blur</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_gaussianBlur">
+         <property name="text">
+          <string>Gaussian Blur</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_medianBlur">
+         <property name="text">
+          <string>Median Blur</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="5">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>For binary image</string>
+      </property>
+      <widget class="QPushButton" name="pushButton_hough">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Hough</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_fitLine">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Fit Line</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
     <item row="0" column="1">
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
@@ -52,10 +115,10 @@
       </layout>
      </widget>
     </item>
-    <item row="0" column="3">
+    <item row="0" column="4">
      <widget class="QGroupBox" name="groupBox_2">
       <property name="title">
-       <string>For Gray</string>
+       <string>For Gray image</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
@@ -98,41 +161,31 @@
       </layout>
      </widget>
     </item>
-    <item row="3" column="0" colspan="4">
+    <item row="1" column="0">
      <widget class="QLabel" name="label_img">
       <property name="text">
        <string>Image</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="2">
-     <widget class="QGroupBox" name="groupBox_4">
+    <item row="0" column="3">
+     <widget class="QGroupBox" name="groupBox_6">
       <property name="title">
-       <string>Filtering</string>
+       <string>Binaryzation</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="pushButton_blur">
-         <property name="text">
-          <string>Blur</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_gaussianBlur">
-         <property name="text">
-          <string>Gaussian Blur</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_medianBlur">
-         <property name="text">
-          <string>Median Blur</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="pushButton_canny">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Canny</string>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -142,7 +195,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>576</width>
+     <width>672</width>
      <height>23</height>
     </rect>
    </property>

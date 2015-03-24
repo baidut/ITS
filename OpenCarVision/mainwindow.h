@@ -39,6 +39,10 @@ private slots:
 
     void on_pushButton_medianBlur_clicked();
 
+    void on_pushButton_canny_clicked();
+
+    void on_pushButton_hough_clicked();
+
 signals:
     void imageChanged();
 

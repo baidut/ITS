@@ -168,7 +168,43 @@ void MainWindow::on_pushButton_gaussianBlur_clicked()
 }
 
 void MainWindow::on_pushButton_medianBlur_clicked()
-{
+{ // 多点几次中值滤波，生成油画特效！
     cv::medianBlur(image,image,5);
+    emit imageChanged();
+}
+
+void MainWindow::on_pushButton_canny_clicked()
+{
+    cv::Canny(image,image,125,350);
+    emit imageChanged();
+}
+
+void MainWindow::on_pushButton_hough_clicked()
+{
+#define PI 3.1415926
+    std::vector<cv::Vec2f>lines;
+    cv::HoughLines(image,lines,1,PI/180,80);
+    cv::Mat result;
+    result.create(image.rows,image.cols,image.type());
+
+    std::vector<cv::Vec2f>::const_iterator it = lines.begin();
+    while(it!=lines.end()){
+        float rho = (*it)[0];
+        float theta = (*it)[1];
+        if(theta < PI/4.
+                || theta>3. * PI/4.) {
+            cv::Point pt1(rho/cos(theta),0);
+            cv::Point pt2((rho-result.rows*sin(theta))/
+                          cos(theta),result.rows);
+            cv::line(image,pt1,pt2,cv::Scalar(255),1);
+        }else {
+            cv::Point pt1(0,rho/sin(theta));
+            cv::Point pt2(result.cols,
+                           (rho-result.cols*cos(theta))/sin(theta));
+            cv::line(image,pt1,pt2,cv::Scalar(255),1);
+        }
+        ++it;
+    }
+    image = result.clone();
     emit imageChanged();
 }
