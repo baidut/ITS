@@ -21,31 +21,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_open_clicked()
-{
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Image"),
-                                    ".",tr("Image Files (*.png *.jpg *.bmp)"));
-    qDebug()<<"filenames:"<<fileName;
-    // QString转char* qstr.toLatin1().data()
-    image = cv::imread(fileName.toLatin1().data()); //fileName.toAscii().data()
-
-    emit imageChanged();
-    //cv::namedWindow(fileName.toLatin1().data(),CV_WINDOW_AUTOSIZE);
-    //cv::imshow(fileName.toLatin1().data(), image);
-}
-
 void MainWindow::on_pushButton_flip_clicked()
 {
     //要求image已经载入
-    cv::flip(image,image,1);
-    emit imageChanged();
+    cv::flip(image,imgProc,1);
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_upsideDown_clicked()
 {
     //要求image已经载入
-    cv::flip(image,image,0);
-    emit imageChanged();
+    cv::flip(image,imgProc,0);
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_salt_clicked()
@@ -54,21 +41,22 @@ void MainWindow::on_pushButton_salt_clicked()
     bool ok;
     int N = QInputDialog::getInt(this,tr("SALT n"),tr("Please input:"),
                                      1000,0,image.cols*image.rows,1,&ok); // 旧版本可能是getInteger
+    imgProc = image.clone();
     if (ok){
         for(int k = 0; k < N; k++){
             // 需要进度条
-            int i = rand()%image.cols;
-            int j = rand()%image.rows;
+            int i = rand()%imgProc.cols;
+            int j = rand()%imgProc.rows;
 
-            switch(image.channels()){
-            case 1: image.at<uchar>(j,i)=255; break;
-            case 3: image.at<cv::Vec3b>(j,i)[0] =
-                    image.at<cv::Vec3b>(j,i)[1] =
-                    image.at<cv::Vec3b>(j,i)[2] = 255;break;
+            switch(imgProc.channels()){
+            case 1: imgProc.at<uchar>(j,i)=255; break;
+            case 3: imgProc.at<cv::Vec3b>(j,i)[0] =
+                    imgProc.at<cv::Vec3b>(j,i)[1] =
+                    imgProc.at<cv::Vec3b>(j,i)[2] = 255;break;
             default: break;
             }
         }
-        emit imageChanged();
+        emit imageProcessed();
     }
 }
 
@@ -110,32 +98,33 @@ void MainWindow::on_pushButton_reduceColor_clicked()
     bool ok;
     int div = QInputDialog::getInt(this,tr("DIV"),tr("Please input:"),
                                      64,1,128,1,&ok); // 旧版本可能是getInteger
+    imgProc = image.clone();
     if (ok){
-        int nl = image.rows;
-        int nc = image.cols*image.channels();
+        int nl = imgProc.rows;
+        int nc = imgProc.cols*imgProc.channels();
         // 以下写法从速度考虑
         // 如果图像没有在行尾填补像素，则是连续的一维数组，遍历更快。 由于可能用到二维空间信息，这里不采用reshape降低维度
-        if(image.isContinuous()){nc = nc*nl;nl=1;}
+        if(imgProc.isContinuous()){nc = nc*nl;nl=1;}
         if( 0 == ( div & (div - 1) )){ // 快速判断2的整数幂 http://blog.csdn.net/hackbuteer1/article/details/6681157
             int x = 0,tmp = div;
             while(tmp>1){tmp >>= 1;x++;} // x = log2(div)
             uchar mask = 0xFF << x;
             for(int j=0;j<nl;j++) {
-                uchar* data = image.ptr<uchar>(j);
+                uchar* data = imgProc.ptr<uchar>(j);
                 for(int i=0;i<nc;i++)
                     data[i] = (data[i]&mask) + div/2;
             }
         }
         else{
             for(int j=0;j<nl;j++) {
-                uchar* data = image.ptr<uchar>(j);
+                uchar* data = imgProc.ptr<uchar>(j);
                 for(int i=0;i<nc;i++){
                     data[i] = data[i]/div*div + div/2;
                     // 等价： = data[i] - data[i]%div + div/2 较慢
                 }
             }
         }
-        emit imageChanged();
+        emit imageProcessed();
     }
 }
 
@@ -143,31 +132,29 @@ void MainWindow::on_pushButton_sharpen_clicked()
 {
     // 这里必须再构建一个图像先
     // 锐化是基于灰度图片的，如果不是，先转为灰度图
-    cv::Mat result;
-    result.create(image.rows,image.cols,image.type()); // 书中错误 result.create(image.size(),image.type());
+    imgProc.create(image.rows,image.cols,image.type()); // 书中错误 imgProc.create(image.size(),image.type());
     for(int j=1;j<image.rows-1;j++){ // 外循环是列，这样效率高
         const uchar* previous = image.ptr<const uchar>(j-1);
         const uchar* current = image.ptr<const uchar>(j);
         const uchar* next = image.ptr<const uchar>(j+1);
-        uchar* output = result.ptr<uchar>(j);
+        uchar* output = imgProc.ptr<uchar>(j);
         for(int i=1;i<image.cols-1;i++){
             *output++= cv::saturate_cast<uchar>(
                         5*current[i]-current[i-1]
                         -current[i+1]-previous[i]-next[i]);
         }
     }
-    result.row(0).setTo(cv::Scalar(0));
-    result.row(result.rows-1).setTo(cv::Scalar(0));
-    result.col(0).setTo(cv::Scalar(0));
-    result.col(result.cols-1).setTo(cv::Scalar(0));
-    image = result.clone(); // 深复制
-    emit imageChanged();
+    imgProc.row(0).setTo(cv::Scalar(0));
+    imgProc.row(imgProc.rows-1).setTo(cv::Scalar(0));
+    imgProc.col(0).setTo(cv::Scalar(0));
+    imgProc.col(imgProc.cols-1).setTo(cv::Scalar(0));
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_gray_clicked()
 {
-    cv::cvtColor(image,image,CV_BGR2GRAY);
-    emit imageChanged();
+    cv::cvtColor(image,imgProc,CV_BGR2GRAY);
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_sharpen2D_clicked()
@@ -178,26 +165,26 @@ void MainWindow::on_pushButton_sharpen2D_clicked()
     kernel.at<float>(2,1) = -1.0;
     kernel.at<float>(1,0) = -1.0;
     kernel.at<float>(1,2) = -1.0;
-    cv::filter2D(image,image,image.depth(),kernel);
-    emit imageChanged();
+    cv::filter2D(image,imgProc,image.depth(),kernel);
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_blur_clicked()
 {
-    cv::blur(image,image,cv::Size(5,5));
-    emit imageChanged();
+    cv::blur(image,imgProc,cv::Size(5,5));
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_gaussianBlur_clicked()
 {
-    cv::GaussianBlur(image,image,cv::Size(5,5),1.5);
-    emit imageChanged();
+    cv::GaussianBlur(image,imgProc,cv::Size(5,5),1.5);
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_medianBlur_clicked()
 { // 多点几次中值滤波，生成油画特效！
-    cv::medianBlur(image,image,5);
-    emit imageChanged();
+    cv::medianBlur(image,imgProc,5);
+    emit imageProcessed();
 }
 
 void MainWindow::on_pushButton_canny_clicked()
@@ -258,4 +245,25 @@ void MainWindow::on_pushButton_slt_clicked()
         }
     }
     emit imageProcessed();
+}
+
+void MainWindow::on_action_openFile_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Image"),
+                                    ".",tr("Image Files (*.png *.jpg *.bmp)"));
+    qDebug()<<"filenames:"<<fileName;
+    // QString转char* qstr.toLatin1().data()
+    image = cv::imread(fileName.toLatin1().data()); //fileName.toAscii().data()
+
+    emit imageChanged();
+    //cv::namedWindow(fileName.toLatin1().data(),CV_WINDOW_AUTOSIZE);
+    //cv::imshow(fileName.toLatin1().data(), image);
+}
+
+void MainWindow::on_pushButton_apply_clicked()
+{
+    image = imgProc.clone(); // 深复制
+    cv::Mat imgResized;
+    cv::resize(image,imgResized,cv::Size(100,100));
+    display_image(imgResized,ui->label_img);
 }

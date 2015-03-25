@@ -20,7 +20,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_open_clicked();
     void on_pushButton_flip_clicked();
     void on_pushButton_salt_clicked();
     void on_image_changed();
@@ -47,6 +46,10 @@ private slots:
     void on_pushButton_upsideDown_clicked();
 
     void on_pushButton_slt_clicked();
+
+    void on_action_openFile_triggered();
+
+    void on_pushButton_apply_clicked();
 
 signals:
     void imageChanged();
