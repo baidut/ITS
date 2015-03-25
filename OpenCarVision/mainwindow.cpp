@@ -41,6 +41,13 @@ void MainWindow::on_pushButton_flip_clicked()
     emit imageChanged();
 }
 
+void MainWindow::on_pushButton_upsideDown_clicked()
+{
+    //要求image已经载入
+    cv::flip(image,image,0);
+    emit imageChanged();
+}
+
 void MainWindow::on_pushButton_salt_clicked()
 {
     //要求image已经载入
@@ -194,6 +201,7 @@ void MainWindow::on_pushButton_medianBlur_clicked()
 
 void MainWindow::on_pushButton_canny_clicked()
 {
+    // canny阈值越小，收集到的特征点越多，从大阈值调小，感觉就像画画一样！
     cv::Canny(image,imgProc,ui->doubleSpinBox_threshold1->value(),ui->doubleSpinBox_threshold2->value());
     emit imageProcessed();
 }
@@ -212,4 +220,36 @@ void MainWindow::on_pushButton_hough_clicked()
     cv::namedWindow("Dectected Lines with HoughP");
     cv::imshow("Detected Lines with HoughP",image);
     //emit imageChanged();
+}
+
+void MainWindow::on_pushButton_slt_clicked()
+{
+    // 静态阈值 处理灰度图！注意先要转为灰度图
+    int Th = ui->spinBox_sltTh->value();
+    imgProc.create(image.rows,image.cols,image.type());
+    for(int j=1;j<image.rows-1;j++){
+        const uchar* current = image.ptr<const uchar>(j);
+        uchar* output = imgProc.ptr<uchar>(j);
+
+        int sumL=0,sumR=0;
+        for(int i=1;i<image.cols;i++)sumR += current[i];
+
+        for(int i=1;i<image.cols-1;i++){ // i 表征当前像素左边像素有几个
+            sumL += current[i-1];
+            sumR -= current[i];
+            if( (current[i] > sumL/i + Th)
+                && (current[i] < sumR/(image.cols- i-1) + Th ) // 共image.cols个，当前1个，左边i个
+              ){ // Ip > AverageR + Th && Ip > AverageL + Th
+                *output = 255; // 左边车道线
+            }
+            else if( (current[i] < sumL/i + Th)
+                     && (current[i] > sumR/(image.cols- i-1) + Th ) // 共image.cols个，当前1个，左边i个
+                   ){ // Ip > AverageR + Th && Ip > AverageL + Th
+                *output = 125; // 右边车道线
+            }
+            else *output = 0;
+            output++;
+        }
+    }
+    emit imageProcessed();
 }

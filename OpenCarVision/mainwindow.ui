@@ -84,17 +84,10 @@
        <string>Process</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QPushButton" name="pushButton_reduceColor">
          <property name="text">
           <string>Reduce Color</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="pushButton_salt">
-         <property name="text">
-          <string>Salt</string>
          </property>
         </widget>
        </item>
@@ -105,10 +98,24 @@
          </property>
         </widget>
        </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pushButton_salt">
+         <property name="text">
+          <string>Salt</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="pushButton_gray">
          <property name="text">
           <string>Gray</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButton_upsideDown">
+         <property name="text">
+          <string>Upside Down</string>
          </property>
         </widget>
        </item>
@@ -121,6 +128,13 @@
        <string>For Gray image</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="4" column="0">
+        <widget class="QPushButton" name="pushButton_slt">
+         <property name="text">
+          <string>SLT</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="pushButton_sharpen">
          <property name="text">
@@ -128,10 +142,20 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QPushButton" name="pushButton_sharpen2D">
          <property name="text">
           <string>Sharpen2D</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QSpinBox" name="spinBox_sltTh">
+         <property name="maximum">
+          <number>255</number>
+         </property>
+         <property name="value">
+          <number>125</number>
          </property>
         </widget>
        </item>
@@ -281,6 +305,22 @@
     <hint type="destinationlabel">
      <x>414</x>
      <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_sltTh</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>pushButton_slt</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>503</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>498</x>
+     <y>181</y>
     </hint>
    </hints>
   </connection>
