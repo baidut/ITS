@@ -128,10 +128,13 @@
        <string>For Gray image</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="4" column="0">
-        <widget class="QPushButton" name="pushButton_slt">
-         <property name="text">
-          <string>SLT</string>
+       <item row="3" column="0">
+        <widget class="QSpinBox" name="spinBox_sltTh">
+         <property name="maximum">
+          <number>255</number>
+         </property>
+         <property name="value">
+          <number>125</number>
          </property>
         </widget>
        </item>
@@ -142,6 +145,13 @@
          </property>
         </widget>
        </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pushButton_slt">
+         <property name="text">
+          <string>SLT</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QPushButton" name="pushButton_sharpen2D">
          <property name="text">
@@ -149,13 +159,20 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QSpinBox" name="spinBox_sltTh">
-         <property name="maximum">
-          <number>255</number>
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="checkBox_extendedSlt">
+         <property name="text">
+          <string>Extended</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QSpinBox" name="spinBox_sltRange">
+         <property name="minimum">
+          <number>1</number>
          </property>
          <property name="value">
-          <number>125</number>
+          <number>10</number>
          </property>
         </widget>
        </item>
@@ -315,12 +332,28 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>503</x>
-     <y>156</y>
+     <x>528</x>
+     <y>143</y>
     </hint>
     <hint type="destinationlabel">
      <x>498</x>
      <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_sltRange</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>pushButton_slt</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>475</x>
+     <y>162</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>475</x>
+     <y>191</y>
     </hint>
    </hints>
   </connection>

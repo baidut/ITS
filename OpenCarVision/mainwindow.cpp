@@ -225,6 +225,8 @@ void MainWindow::on_pushButton_hough_clicked()
 void MainWindow::on_pushButton_slt_clicked()
 {
     // 静态阈值 处理灰度图！注意先要转为灰度图
+    // DLD特性是针对一条车道线的，因此该算法写的有问题，应当改成一定范围内搜索，而不是整行的AverageL和AverageR
+#if 0
     int Th = ui->spinBox_sltTh->value();
     imgProc.create(image.rows,image.cols,image.type());
     for(int j=1;j<image.rows-1;j++){
@@ -249,6 +251,35 @@ void MainWindow::on_pushButton_slt_clicked()
             }
             else *output = 0;
             output++;
+        }
+    }
+#endif
+    // 改为采用核滤波的方式-属于图像增强，而不是提取特征，找最匹配DLD模板的区域
+    int Th = ui->spinBox_sltTh->value();
+    int Range = ui->spinBox_sltRange->value();
+    imgProc.create(image.rows,image.cols,image.type());
+    for(int j=1;j<image.rows-1;j++){
+        const uchar* current = image.ptr<const uchar>(j);
+        uchar* output = imgProc.ptr<uchar>(j);
+
+        int sumL,sumR;
+        for(int i=Range;i<image.cols-1-Range;i++){ // i 表征当前像素左边像素有几个
+            sumL=sumR=0;
+            for(int k=1;k<=Range;k++){
+                sumL += current[i-k];
+                sumR += current[i+k];
+            }
+            if( (current[i] > sumL/Range + Th)
+                && (current[i] > sumR/Range + Th ) // 共image.cols个，当前1个，左边i个
+              ){ // Ip > AverageR + Th && Ip > AverageL + Th
+                // 找到了一个特征点！
+                if(ui->checkBox_extendedSlt->isChecked()){
+
+
+                }
+                output[i] = 255; // 左边车道线
+            }
+            else output[i] = 0;
         }
     }
     emit imageProcessed();
