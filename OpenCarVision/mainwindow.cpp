@@ -78,16 +78,19 @@ void display_image(cv::Mat image,QLabel* label){
         cv::Mat imageRGB;
         if(1==image.channels()){
             img = QImage((const unsigned char*)(image.data),
-                                image.cols,image.rows,QImage::Format_Indexed8);
+                                image.cols,image.rows,image.cols*image.channels(),QImage::Format_Indexed8);
+            //qDebug("黑白图片");
         }
         else{
             cv::cvtColor(image,imageRGB,CV_BGR2RGB);
             img = QImage((const unsigned char*)(imageRGB.data),
-                                image.cols,image.rows,QImage::Format_RGB888);
+                                image.cols,image.rows,image.cols*image.channels(),QImage::Format_RGB888);
+            //qDebug("彩色图片");
         }
-        img = img.scaled(label->size()); // 缩放
+        //img = img.scaled(label->size()); // 缩放有bug 不进行缩放
+        label->clear(); // 先清理
         label->setPixmap(QPixmap::fromImage(img));
-        // label->resize(label->pixmap()->size());
+        label->resize(label->pixmap()->size());
     }
     else{
         cv::imshow("Figure",image);
