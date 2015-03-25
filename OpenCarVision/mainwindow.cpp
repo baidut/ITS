@@ -72,36 +72,34 @@ void MainWindow::on_pushButton_salt_clicked()
     }
 }
 
-void MainWindow::on_image_changed(){
-    QImage img;
-    cv::Mat imageRGB;
-    if(1==image.channels()){
-        img = QImage((const unsigned char*)(image.data),
-                            image.cols,image.rows,QImage::Format_Indexed8);
+void display_image(cv::Mat image,QLabel* label){
+    if(label){
+        QImage img;
+        cv::Mat imageRGB;
+        if(1==image.channels()){
+            img = QImage((const unsigned char*)(image.data),
+                                image.cols,image.rows,QImage::Format_Indexed8);
+        }
+        else{
+            cv::cvtColor(image,imageRGB,CV_BGR2RGB);
+            img = QImage((const unsigned char*)(imageRGB.data),
+                                image.cols,image.rows,QImage::Format_RGB888);
+        }
+        img = img.scaled(label->size()); // 缩放
+        label->setPixmap(QPixmap::fromImage(img));
+        // label->resize(label->pixmap()->size());
     }
     else{
-        cv::cvtColor(image,imageRGB,CV_BGR2RGB);
-        img = QImage((const unsigned char*)(imageRGB.data),
-                            image.cols,image.rows,QImage::Format_RGB888);
+        cv::imshow("Figure",image);
     }
-    ui->label_img->setPixmap(QPixmap::fromImage(img));
-    ui->label_img->resize(ui->label_img->pixmap()->size());
+}
+
+void MainWindow::on_image_changed(){
+    display_image(image,ui->label_img);
 }
 
 void MainWindow::on_image_processed(){
-    QImage img;
-    cv::Mat imageRGB;
-    if(1==imgProc.channels()){
-        img = QImage((const unsigned char*)(imgProc.data),
-                            imgProc.cols,imgProc.rows,QImage::Format_Indexed8);
-    }
-    else{
-        cv::cvtColor(imgProc,imageRGB,CV_BGR2RGB);
-        img = QImage((const unsigned char*)(imageRGB.data),
-                            imgProc.cols,imgProc.rows,QImage::Format_RGB888);
-    }
-    ui->label_imgProc->setPixmap(QPixmap::fromImage(img));
-    ui->label_imgProc->resize(ui->label_img->pixmap()->size());
+    display_image(imgProc,ui->label_imgProc);
 }
 
 void MainWindow::on_pushButton_reduceColor_clicked()
@@ -226,37 +224,11 @@ void MainWindow::on_pushButton_slt_clicked()
 {
     // 静态阈值 处理灰度图！注意先要转为灰度图
     // DLD特性是针对一条车道线的，因此该算法写的有问题，应当改成一定范围内搜索，而不是整行的AverageL和AverageR
-#if 0
-    int Th = ui->spinBox_sltTh->value();
-    imgProc.create(image.rows,image.cols,image.type());
-    for(int j=1;j<image.rows-1;j++){
-        const uchar* current = image.ptr<const uchar>(j);
-        uchar* output = imgProc.ptr<uchar>(j);
-
-        int sumL=0,sumR=0;
-        for(int i=1;i<image.cols;i++)sumR += current[i];
-
-        for(int i=1;i<image.cols-1;i++){ // i 表征当前像素左边像素有几个
-            sumL += current[i-1];
-            sumR -= current[i];
-            if( (current[i] > sumL/i + Th)
-                && (current[i] < sumR/(image.cols- i-1) + Th ) // 共image.cols个，当前1个，左边i个
-              ){ // Ip > AverageR + Th && Ip > AverageL + Th
-                *output = 255; // 左边车道线
-            }
-            else if( (current[i] < sumL/i + Th)
-                     && (current[i] > sumR/(image.cols- i-1) + Th ) // 共image.cols个，当前1个，左边i个
-                   ){ // Ip > AverageR + Th && Ip > AverageL + Th
-                *output = 125; // 右边车道线
-            }
-            else *output = 0;
-            output++;
-        }
-    }
-#endif
     // 改为采用核滤波的方式-属于图像增强，而不是提取特征，找最匹配DLD模板的区域
     int Th = ui->spinBox_sltTh->value();
     int Range = ui->spinBox_sltRange->value();
+    // Range要比白线宽度宽才合理，因此检索车道线边界的时候也可以采用此Range，提高阈值，使得只有中心被匹配
+    // Range应当由远到近不断增大才合适
     imgProc.create(image.rows,image.cols,image.type());
     for(int j=1;j<image.rows-1;j++){
         const uchar* current = image.ptr<const uchar>(j);
