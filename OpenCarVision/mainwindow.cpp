@@ -5,7 +5,8 @@
 #include <QDebug>
 #include <QInputDialog>
 
-#include <linefinder.h>
+#include "linefinder.h"
+#include "histogram.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -86,7 +87,9 @@ void display_image(cv::Mat image,QLabel* label){
 }
 
 void MainWindow::on_image_changed(){
-    display_image(image,ui->label_img);
+    cv::Mat imgResized;
+    cv::resize(image,imgResized,cv::Size(100,100)); //利用OpenCV的缩放代替QT的缩放解决缩放bug
+    display_image(imgResized,ui->label_img);
 }
 
 void MainWindow::on_image_processed(){
@@ -263,7 +266,65 @@ void MainWindow::on_action_openFile_triggered()
 void MainWindow::on_pushButton_apply_clicked()
 {
     image = imgProc.clone(); // 深复制
-    cv::Mat imgResized;
-    cv::resize(image,imgResized,cv::Size(100,100));
-    display_image(imgResized,ui->label_img);
+    emit imageChanged();
+}
+
+void MainWindow::on_pushButton_histogram_clicked()
+{
+    // The histogram object
+        Histogram1D h;
+
+        // Compute the histogram
+        // cv::MatND histo= h.getHistogram(image);
+        // Loop over each bin
+        // for (int i=0; i<256; i++)cout << "Value " << i << " = " << histo.at<float>(i) << endl;
+
+        // Display a histogram as an image
+        cv::namedWindow("Histogram");
+        cv::imshow("Histogram",h.getHistogramImage(image));
+
+        // creating a binary image by thresholding at the valley
+        cv::Mat thresholded;
+        cv::threshold(image,thresholded,60,255,cv::THRESH_BINARY);
+
+        // Display the thresholded image
+        cv::namedWindow("Binary Image");
+        cv::imshow("Binary Image",thresholded);
+        cv::imwrite("binary.bmp",thresholded);
+
+        /*
+        // Equalize the image
+        cv::Mat eq= h.equalize(image);
+
+        // Show the result
+        cv::namedWindow("Equalized Image");
+        cv::imshow("Equalized Image",eq);
+
+        // Show the new histogram
+        cv::namedWindow("Equalized Histogram");
+        cv::imshow("Equalized Histogram",h.getHistogramImage(eq));
+
+        // Stretch the image ignoring bins with less than 5 pixels
+        cv::Mat str= h.stretch(image,5);
+
+        // Show the result
+        cv::namedWindow("Stretched Image");
+        cv::imshow("Stretched Image",str);
+
+        // Show the new histogram
+        cv::namedWindow("Stretched Histogram");
+        cv::imshow("Stretched Histogram",h.getHistogramImage(str));
+
+        // Create an image inversion table
+        uchar lookup[256];
+
+        for (int i=0; i<256; i++) {
+
+            lookup[i]= 255-i;
+        }
+
+        // Apply lookup and display negative image
+        cv::namedWindow("Negative image");
+        cv::imshow("Negative image",h.applyLookUp(image,lookup));
+        */
 }

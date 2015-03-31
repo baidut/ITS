@@ -51,6 +51,8 @@ private slots:
 
     void on_pushButton_apply_clicked();
 
+    void on_pushButton_histogram_clicked();
+
 signals:
     void imageChanged();
     void imageProcessed();

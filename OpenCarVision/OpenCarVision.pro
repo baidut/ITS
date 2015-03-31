@@ -16,7 +16,8 @@ SOURCES += main.cpp\
         mainwindow.cpp
 
 HEADERS  += mainwindow.h \
-    linefinder.h
+    linefinder.h \
+    histogram.h
 
 FORMS    += mainwindow.ui
 
