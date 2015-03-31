@@ -131,14 +131,7 @@
           <string>Binaryzation</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton_canny">
-            <property name="text">
-             <string>Canny</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
+          <item row="1" column="1">
            <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold1">
             <property name="maximum">
              <double>1000.000000000000000</double>
@@ -148,7 +141,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="1" column="2">
            <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold2">
             <property name="maximum">
              <double>1000.000000000000000</double>
@@ -158,11 +151,31 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="3">
+           <widget class="QPushButton" name="pushButton_canny">
+            <property name="text">
+             <string>Canny</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QPushButton" name="pushButton_sobel">
+            <property name="text">
+             <string>Sobel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_sobelThreshold">
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>125.000000000000000</double>
+            </property>
+           </widget>
+          </item>
          </layout>
-         <zorder>pushButton_canny</zorder>
-         <zorder>doubleSpinBox_threshold1</zorder>
-         <zorder>doubleSpinBox_threshold2</zorder>
-         <zorder>groupBox_3</zorder>
         </widget>
        </item>
        <item row="4" column="0">
@@ -317,12 +330,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>387</x>
-     <y>135</y>
+     <x>420</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
-     <x>387</x>
-     <y>91</y>
+     <x>577</x>
+     <y>338</y>
     </hint>
    </hints>
   </connection>
@@ -333,12 +346,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>409</x>
-     <y>165</y>
+     <x>496</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
-     <x>414</x>
-     <y>81</y>
+     <x>577</x>
+     <y>338</y>
     </hint>
    </hints>
   </connection>
@@ -349,12 +362,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>143</y>
+     <x>396</x>
+     <y>253</y>
     </hint>
     <hint type="destinationlabel">
-     <x>498</x>
-     <y>181</y>
+     <x>577</x>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -365,12 +378,28 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>475</x>
-     <y>162</y>
+     <x>496</x>
+     <y>253</y>
     </hint>
     <hint type="destinationlabel">
-     <x>475</x>
-     <y>191</y>
+     <x>577</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox_sobelThreshold</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>pushButton_sobel</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>398</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>520</x>
+     <y>356</y>
     </hint>
    </hints>
   </connection>

@@ -7,6 +7,7 @@
 
 #include "linefinder.h"
 #include "histogram.h"
+#include "edgedetector.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -258,6 +259,8 @@ void MainWindow::on_action_openFile_triggered()
     // QString转char* qstr.toLatin1().data()
     image = cv::imread(fileName.toLatin1().data()); //fileName.toAscii().data()
 
+    if (!image.data) // 图片打开失败的情形
+        return;
     emit imageChanged();
     //cv::namedWindow(fileName.toLatin1().data(),CV_WINDOW_AUTOSIZE);
     //cv::imshow(fileName.toLatin1().data(), image);
@@ -327,4 +330,20 @@ void MainWindow::on_pushButton_histogram_clicked()
         cv::namedWindow("Negative image");
         cv::imshow("Negative image",h.applyLookUp(image,lookup));
         */
+}
+
+void MainWindow::on_pushButton_sobel_clicked()
+{
+    // Compute Sobel
+    EdgeDetector ed;
+    ed.computeSobel(image);
+
+    // Display the Sobel orientation
+    // 浮雕特效图
+    // cv::imshow("Sobel (orientation)",ed.getSobelOrientationImage());
+    // cv::imwrite("ori.bmp",ed.getSobelOrientationImage());
+    // 二值化图
+    imgProc = ed.getBinaryMap(125);
+    cv::imshow("Sobel (low threshold)",ed.getBinaryMap(125));
+    emit imageProcessed();
 }
