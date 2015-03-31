@@ -66,16 +66,17 @@ void display_image(cv::Mat image,QLabel* label){
     if(label){
         QImage img;
         cv::Mat imageRGB;
+        qDebug("Channels:%d",image.channels());
         if(1==image.channels()){
             img = QImage((const unsigned char*)(image.data),
-                                image.cols,image.rows,image.cols*image.channels(),QImage::Format_Indexed8);
-            //qDebug("黑白图片");
+                                image.cols,image.rows,image.cols,QImage::Format_Indexed8);
+            qDebug("黑白图片");
         }
         else{
             cv::cvtColor(image,imageRGB,CV_BGR2RGB);
             img = QImage((const unsigned char*)(imageRGB.data),
                                 image.cols,image.rows,image.cols*image.channels(),QImage::Format_RGB888);
-            //qDebug("彩色图片");
+            qDebug("彩色图片");
         }
         //img = img.scaled(label->size()); // 缩放有bug 不进行缩放
         label->clear(); // 先清理
@@ -89,7 +90,8 @@ void display_image(cv::Mat image,QLabel* label){
 
 void MainWindow::on_image_changed(){
     cv::Mat imgResized;
-    cv::resize(image,imgResized,cv::Size(100,100)); //利用OpenCV的缩放代替QT的缩放解决缩放bug
+    cv::resize(image,imgResized,(image.cols>image.rows)?
+                   cv::Size(100,100*image.rows/image.cols):cv::Size(100*image.cols/image.rows,100)); //利用OpenCV的缩放代替QT的缩放解决缩放bug
     display_image(imgResized,ui->label_img);
 }
 
@@ -262,6 +264,8 @@ void MainWindow::on_action_openFile_triggered()
     if (!image.data) // 图片打开失败的情形
         return;
     emit imageChanged();
+    imgProc = image.clone();
+    emit imageProcessed();
     //cv::namedWindow(fileName.toLatin1().data(),CV_WINDOW_AUTOSIZE);
     //cv::imshow(fileName.toLatin1().data(), image);
 }
@@ -332,8 +336,30 @@ void MainWindow::on_pushButton_histogram_clicked()
         */
 }
 
+#define WIN_NAME_SOBEL  "Sobel"
+
+static void on_trackbar_sobel(int value, void* usrdata)
+{
+    cv::Mat img=*(cv::Mat*)(usrdata);   //强制类型转换
+    //Mat dst;
+
+    // Compute Sobel
+    EdgeDetector ed;
+    ed.computeSobel(img);
+
+    cv::imshow (WIN_NAME_SOBEL,ed.getBinaryMap(value));
+}
+
 void MainWindow::on_pushButton_sobel_clicked()
 {
+    int poiTrackBar=120;//trackbar的值
+
+    cv::namedWindow(WIN_NAME_SOBEL);
+    //cv::imshow(WIN_NAME_SOBEL,image);
+        //创建trackbar，我们把img作为数据传进回调函数中
+    cv::createTrackbar("NULL",WIN_NAME_SOBEL,&poiTrackBar,1000,on_trackbar_sobel,&image);// 注意 ,&image
+    //on_trackbar_sobel(120,&image);
+/*
     // Compute Sobel
     EdgeDetector ed;
     ed.computeSobel(image);
@@ -343,7 +369,14 @@ void MainWindow::on_pushButton_sobel_clicked()
     // cv::imshow("Sobel (orientation)",ed.getSobelOrientationImage());
     // cv::imwrite("ori.bmp",ed.getSobelOrientationImage());
     // 二值化图
-    imgProc = ed.getBinaryMap(125);
-    cv::imshow("Sobel (low threshold)",ed.getBinaryMap(125));
-    emit imageProcessed();
+    // 可以确定是label显示的问题，这里由于不是研究重点，先暂放，待在linux下安装最新版Qt再测试
+    // 探究一下imshow添加拖动条
+    imgProc = ed.getBinaryMap(ui->doubleSpinBox_sobelThreshold->value());
+
+    createTrackbar( "Threshold", "Connected Components", &threshval, 255, on_trackbar );
+    on_trackbar_sobel(threshval, 0);//轨迹条回调函数
+    //emit imageProcessed();
+*/
 }
+
+
