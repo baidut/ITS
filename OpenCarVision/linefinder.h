@@ -82,7 +82,7 @@ class LineFinder {
       }
 
       // Draw the detected lines on an image
-      void drawDetectedLines(cv::Mat &image, cv::Scalar color=cv::Scalar(255,255,255)) {
+      void drawDetectedLines(cv::Mat &image, cv::Scalar color=cv::Scalar(255,0,0/*BGR*/)) {
 
           // Draw the lines
           std::vector<cv::Vec4i>::const_iterator it2= lines.begin();
