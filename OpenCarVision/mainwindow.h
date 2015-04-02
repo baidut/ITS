@@ -55,12 +55,21 @@ private slots:
 
     void on_pushButton_sobel_clicked();
 
+    void on_pushButton_2inch_clicked();
+
+    void on_pushButton_findLines_clicked();
+
+    void on_pushButton_display_clicked();
+
+    void on_pushButton_resume_clicked();
+
 signals:
     void imageChanged();
     void imageProcessed();
 
 private:
     Ui::MainWindow *ui; 
+    QString fileName;
     cv::Mat image;
     cv::Mat imgProc;
 };

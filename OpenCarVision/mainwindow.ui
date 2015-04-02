@@ -38,6 +38,184 @@
        <string>Process</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_img">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Image</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QGroupBox" name="groupBox_7">
+         <property name="title">
+          <string>Output</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QPushButton" name="pushButton_2inch">
+            <property name="text">
+             <string>2-inch</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>For binary image</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="1" column="0">
+           <widget class="QPushButton" name="pushButton_hough">
+            <property name="text">
+             <string>Hough</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="pushButton_findLines">
+            <property name="text">
+             <string>Find Lines</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QPushButton" name="pushButton_fitLine">
+            <property name="text">
+             <string>Fit Line</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="spinBox_minVote">
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+            <property name="value">
+             <number>80</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Basic</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="1">
+           <widget class="QPushButton" name="pushButton_upsideDown">
+            <property name="text">
+             <string>Upside Down</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="pushButton_flip">
+            <property name="text">
+             <string>Flip</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="pushButton_reduceColor">
+            <property name="text">
+             <string>Reduce Color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="pushButton_gray">
+            <property name="text">
+             <string>Gray</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QPushButton" name="pushButton_salt">
+            <property name="text">
+             <string>Salt</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QGroupBox" name="groupBox_6">
+         <property name="title">
+          <string>Binaryzation</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold1">
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>125.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold2">
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>350.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QPushButton" name="pushButton_canny">
+            <property name="text">
+             <string>Canny</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QPushButton" name="pushButton_sobel">
+            <property name="text">
+             <string>Sobel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_sobelThreshold">
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>125.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="1" column="1">
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
@@ -125,156 +303,34 @@
          </layout>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QGroupBox" name="groupBox_6">
+       <item row="4" column="1">
+        <widget class="QGroupBox" name="groupBox_8">
          <property name="title">
-          <string>Binaryzation</string>
+          <string>Image</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold1">
-            <property name="maximum">
-             <double>1000.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>125.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_threshold2">
-            <property name="maximum">
-             <double>1000.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>350.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="pushButton_canny">
-            <property name="text">
-             <string>Canny</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QPushButton" name="pushButton_sobel">
-            <property name="text">
-             <string>Sobel</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_sobelThreshold">
-            <property name="maximum">
-             <double>1000.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>125.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>For binary image</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton_hough">
-            <property name="text">
-             <string>Hough</string>
-            </property>
-           </widget>
-          </item>
+         <layout class="QGridLayout" name="gridLayout_7">
           <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton_fitLine">
+           <widget class="QPushButton" name="pushButton_display">
             <property name="text">
-             <string>Fit Line</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Basic</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_2">
-          <item row="1" column="1">
-           <widget class="QPushButton" name="pushButton_upsideDown">
-            <property name="text">
-             <string>Upside Down</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton_flip">
-            <property name="text">
-             <string>Flip</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QPushButton" name="pushButton_reduceColor">
-            <property name="text">
-             <string>Reduce Color</string>
+             <string>Display</string>
             </property>
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton_gray">
+           <widget class="QPushButton" name="pushButton_apply">
             <property name="text">
-             <string>Gray</string>
+             <string>Apply</string>
             </property>
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QPushButton" name="pushButton_salt">
+           <widget class="QPushButton" name="pushButton_resume">
             <property name="text">
-             <string>Salt</string>
+             <string>Resume</string>
             </property>
            </widget>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_img">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Image</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QPushButton" name="pushButton_apply">
-         <property name="text">
-          <string>Apply</string>
-         </property>
         </widget>
        </item>
       </layout>
@@ -331,11 +387,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>420</x>
-     <y>336</y>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
      <x>577</x>
-     <y>338</y>
+     <y>327</y>
     </hint>
    </hints>
   </connection>
@@ -347,11 +403,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>496</x>
-     <y>336</y>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
      <x>577</x>
-     <y>338</y>
+     <y>327</y>
     </hint>
    </hints>
   </connection>
@@ -363,11 +419,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>396</x>
-     <y>253</y>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>577</x>
-     <y>255</y>
+     <y>237</y>
     </hint>
    </hints>
   </connection>
@@ -378,12 +434,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>496</x>
-     <y>253</y>
+     <x>473</x>
+     <y>237</y>
     </hint>
     <hint type="destinationlabel">
      <x>577</x>
-     <y>255</y>
+     <y>237</y>
     </hint>
    </hints>
   </connection>
@@ -400,6 +456,22 @@
     <hint type="destinationlabel">
      <x>520</x>
      <y>356</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_minVote</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>pushButton_findLines</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>470</x>
+     <y>418</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>530</x>
+     <y>417</y>
     </hint>
    </hints>
   </connection>

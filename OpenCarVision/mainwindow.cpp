@@ -1,13 +1,17 @@
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
 #include <QDebug>
 #include <QInputDialog>
+#include <QMessageBox>
 
 #include "linefinder.h"
 #include "histogram.h"
 #include "edgedetector.h"
+
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -196,7 +200,17 @@ void MainWindow::on_pushButton_medianBlur_clicked()
 void MainWindow::on_pushButton_canny_clicked()
 {
     // canny阈值越小，收集到的特征点越多，从大阈值调小，感觉就像画画一样！
-    cv::Canny(image,imgProc,ui->doubleSpinBox_threshold1->value(),ui->doubleSpinBox_threshold2->value());
+    //cv::Canny(image,imgProc,ui->doubleSpinBox_threshold1->value(),ui->doubleSpinBox_threshold2->value());
+
+    double threshold1 = ui->doubleSpinBox_threshold1->value();
+    double threshold2 = ui->doubleSpinBox_threshold2->value();
+
+    cv::Mat contours/*黑底白线*/;// 默认不反转，便于后续处理，可以通过invert按钮反转,contoursInv/*白底黑线*/;
+
+    cv::Canny(image,contours,threshold1,threshold2);
+    // cv::threshold(contours,contoursInv,128,255,cv::THRESH_BINARY_INV);
+
+    imgProc = contours.clone();
     emit imageProcessed();
 }
 
@@ -255,7 +269,7 @@ void MainWindow::on_pushButton_slt_clicked()
 
 void MainWindow::on_action_openFile_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Image"),
+    fileName = QFileDialog::getOpenFileName(this,tr("Open Image"),
                                     ".",tr("Image Files (*.png *.jpg *.bmp)"));
     qDebug()<<"filenames:"<<fileName;
     // QString转char* qstr.toLatin1().data()
@@ -351,7 +365,7 @@ static void on_trackbar_sobel(int value, void* usrdata)
 }
 
 void MainWindow::on_pushButton_sobel_clicked()
-{
+{ // 此处待修复
     int poiTrackBar=120;//trackbar的值
 
     cv::namedWindow(WIN_NAME_SOBEL);
@@ -379,4 +393,46 @@ void MainWindow::on_pushButton_sobel_clicked()
 */
 }
 
+void MainWindow::on_pushButton_2inch_clicked()
+{ // 图片dpi不符合要求，待修复
+    cv::Mat imgResized;
+    cv::resize(image,imgResized,cv::Size(413,626)); //利用OpenCV的缩放代替QT的缩放解决缩放bug
+    cv::imwrite("output.jpg",imgResized); //两寸413*626像素35*53毫米
+    QMessageBox::about(NULL, "Note", "Finished! Please check current folder.");
+    // 再用默认程序弹出图片！
+}
 
+void MainWindow::on_pushButton_findLines_clicked()
+{ // 要求原图是提取了边缘的二值图
+    cv::Mat contours = image.clone();
+    // Create LineFinder instance
+    LineFinder ld;
+
+    // Set probabilistic Hough parameters
+    int minVote = ui->spinBox_minVote->value();
+    ld.setLineLengthAndGap(100,20);
+    ld.setMinVote(minVote);
+
+    // Detect lines
+    ld.findLines(contours);
+
+    // 可选择底片，标识在原图上，还是边缘提取后的图上
+    imgProc = cv::imread(fileName.toLatin1().data()); // 这里克隆原始图片
+    // imgProc = image.clone();二值图上加白线看不清楚，需要加彩色线
+    ld.drawDetectedLines(imgProc);
+    emit imageProcessed();// cv::imshow("Detected Lines with HoughP",image);
+}
+
+void MainWindow::on_pushButton_display_clicked()
+{
+    imgProc = image.clone();
+    emit imageProcessed();
+}
+
+void MainWindow::on_pushButton_resume_clicked()
+{
+    image = cv::imread(fileName.toLatin1().data());
+    emit imageChanged();
+    imgProc = image.clone();
+    emit imageProcessed();
+}
