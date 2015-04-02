@@ -403,7 +403,7 @@ void MainWindow::on_pushButton_2inch_clicked()
 }
 
 void MainWindow::on_pushButton_findLines_clicked()
-{ // 要求原图是提取了边缘的二值图
+{ // 要求原图是提取了边缘的二值图，否则程序会当机
     cv::Mat contours = image.clone();
     // Create LineFinder instance
     LineFinder ld;
@@ -413,14 +413,68 @@ void MainWindow::on_pushButton_findLines_clicked()
     ld.setLineLengthAndGap(100,20);
     ld.setMinVote(minVote);
 
+    // 消去不连续直线 可选项目， 不知道是否影响虚线车道识别
+    // eliminate inconsistent lines
+    // ld.removeLinesOfInconsistentOrientations(ed.getOrientation(),0.4,0.1);
+
     // Detect lines
-    ld.findLines(contours);
+    std::vector<cv::Vec4i> li= ld.findLines(contours);
 
     // 可选择底片，标识在原图上，还是边缘提取后的图上
     imgProc = cv::imread(fileName.toLatin1().data()); // 这里克隆原始图片
     // imgProc = image.clone();二值图上加白线看不清楚，需要加彩色线
     ld.drawDetectedLines(imgProc);
     emit imageProcessed();// cv::imshow("Detected Lines with HoughP",image);
+
+    ui->statusBar->showMessage(QString("%1 lines detected.").arg(li.size()));
+    if( 10 >= li.size() ){
+        for(unsigned int n = 0; n < li.size(); n++ ){
+            // cv::line(image, cv::Point(li[n][0],li[n][1]),cv::Point(li[n][2],li[n][3]),cv::Scalar(255),5);
+            // cv::imshow("One line of the Image",image);
+
+            // Extract the contour pixels of the first detected line
+            cv::Mat oneline(image.size(),CV_8U,cv::Scalar(0));
+            cv::line(oneline, cv::Point(li[n][0],li[n][1]),cv::Point(li[n][2],li[n][3]),cv::Scalar(255),5);
+            cv::bitwise_and(image/*即contours*/,oneline,oneline);
+
+            // cv::Mat onelineInv;
+            // cv::threshold(oneline,onelineInv,128,255,cv::THRESH_BINARY_INV);
+            // cv::namedWindow("One line");
+            // cv::imshow("One line",onelineInv);
+
+            std::vector<cv::Point> points;
+
+            // Iterate over the pixels to obtain all point positions
+            for( int y = 0; y < oneline.rows; y++ ) {
+
+                uchar* rowPtr = oneline.ptr<uchar>(y);
+
+                for( int x = 0; x < oneline.cols; x++ ) {
+
+                    // if on a contour
+                    if (rowPtr[x]) {
+
+                        points.push_back(cv::Point(x,y));
+                    }
+                }
+            }
+
+            // find the best fitting line
+            cv::Vec4f line;
+            cv::fitLine(cv::Mat(points),line,CV_DIST_L2,0,0.01,0.01);
+
+            // std::cout << "line: (" << line[0] << "," << line[1] << ")(" << line[2] << "," << line[3] << ")\n";
+
+            int x0= line[2];
+            int y0= line[3];
+            int x1= x0-200*line[0];
+            int y1= y0-200*line[1];
+
+            cv::line(imgProc,cv::Point(x0,y0),cv::Point(x1,y1),cv::Scalar(0),3);
+            // cv::imshow("Estimated line",image);
+        }
+        emit imageProcessed();
+    }
 }
 
 void MainWindow::on_pushButton_display_clicked()
