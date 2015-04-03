@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>719</width>
-    <height>509</height>
+    <height>537</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,14 +85,17 @@
           <string>For binary image</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_8">
-          <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton_hough">
-            <property name="text">
-             <string>Hough</string>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="spinBox_minVote">
+            <property name="maximum">
+             <number>1000</number>
+            </property>
+            <property name="value">
+             <number>80</number>
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
+          <item row="1" column="3">
            <widget class="QPushButton" name="pushButton_findLines">
             <property name="text">
              <string>Find Lines</string>
@@ -106,13 +109,17 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QSpinBox" name="spinBox_minVote">
-            <property name="maximum">
-             <number>1000</number>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_probabilistic">
+            <property name="text">
+             <string>Probabilistic</string>
             </property>
-            <property name="value">
-             <number>80</number>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="checkBox_dirFilter">
+            <property name="text">
+             <string>Dir filter</string>
             </property>
            </widget>
           </item>
@@ -386,8 +393,8 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>420</x>
-     <y>325</y>
+     <x>410</x>
+     <y>346</y>
     </hint>
     <hint type="destinationlabel">
      <x>577</x>
@@ -402,8 +409,8 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>496</x>
-     <y>325</y>
+     <x>493</x>
+     <y>346</y>
     </hint>
     <hint type="destinationlabel">
      <x>577</x>
@@ -418,8 +425,8 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>396</x>
-     <y>237</y>
+     <x>383</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
      <x>577</x>
@@ -450,12 +457,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>398</x>
-     <y>358</y>
+     <x>410</x>
+     <y>384</y>
     </hint>
     <hint type="destinationlabel">
-     <x>520</x>
-     <y>356</y>
+     <x>577</x>
+     <y>386</y>
     </hint>
    </hints>
   </connection>
@@ -466,12 +473,28 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>470</x>
-     <y>418</y>
+     <x>496</x>
+     <y>454</y>
     </hint>
     <hint type="destinationlabel">
-     <x>530</x>
-     <y>417</y>
+     <x>577</x>
+     <y>456</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_dirFilter</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_findLines</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>455</x>
+     <y>474</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>539</x>
+     <y>447</y>
     </hint>
    </hints>
   </connection>

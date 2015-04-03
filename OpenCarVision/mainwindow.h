@@ -41,8 +41,6 @@ private slots:
 
     void on_pushButton_canny_clicked();
 
-    void on_pushButton_hough_clicked();
-
     void on_pushButton_upsideDown_clicked();
 
     void on_pushButton_slt_clicked();
