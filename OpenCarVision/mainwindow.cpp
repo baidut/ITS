@@ -229,14 +229,24 @@ void MainWindow::on_pushButton_slt_clicked()
         uchar* output = imgProc.ptr<uchar>(j);
 
         int sumL,sumR;
-        for(int i=Range;i<image.cols-1-Range;i++){ // i 表征当前像素左边像素有几个
-            sumL=sumR=0;
-            for(int k=1;k<=Range;k++){
+
+        // 可以左边 中间 右边 分开处理 混合处理时中间没必要判断越界条件
+
+        for(int i = 1; i < image.cols-1; i++){ // i 表征当前像素左边像素有几个
+            sumL = sumR = 0;
+            int k;
+            for(k = 1; k <= Range && i - k >= 0; k++){
                 sumL += current[i-k];
+            }
+            int avrL = sumL / (k-1);
+
+            for(k = 1; k <= Range && i + k < image.cols; k++){
                 sumR += current[i+k];
             }
-            if( (current[i] > sumL/Range + Th)
-                && (current[i] > sumR/Range + Th ) // 共image.cols个，当前1个，左边i个
+            int avrR = sumR / (k-1);
+
+            if( (current[i] > avrL + Th)
+                && (current[i] > avrR + Th ) // 共image.cols个，当前1个，左边i个
               ){ // Ip > AverageR + Th && Ip > AverageL + Th
                 // 找到了一个特征点！
                 if(ui->checkBox_extendedSlt->isChecked()){
@@ -493,7 +503,7 @@ void MainWindow::on_pushButton_findLines_clicked()
                 // point of intersection of the line with last row
                 cv::Point pt2((rho-result.rows*sin(theta))/cos(theta),result.rows);
                 // draw a white line
-                cv::line( result, pt1, pt2, cv::Scalar(255), 1);
+                cv::line( result, pt1, pt2, cv::Scalar(255), 3);
 
             } else { // ~horizontal line
 

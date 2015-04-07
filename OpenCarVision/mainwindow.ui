@@ -259,17 +259,27 @@
           <string>For Gray image</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0" colspan="2">
-           <widget class="QPushButton" name="pushButton_sharpen">
-            <property name="text">
-             <string>Sharpen</string>
+          <item row="1" column="2" colspan="2">
+           <widget class="QSpinBox" name="spinBox_sltRange">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <number>10</number>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" colspan="2">
-           <widget class="QPushButton" name="pushButton_sharpen2D">
+          <item row="1" column="4">
+           <widget class="QPushButton" name="pushButton_slt">
             <property name="text">
-             <string>Sharpen2D</string>
+             <string>SLT</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QCheckBox" name="checkBox_extendedSlt">
+            <property name="text">
+             <string>Extended</string>
             </property>
            </widget>
           </item>
@@ -283,27 +293,24 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="QSpinBox" name="spinBox_sltRange">
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <number>10</number>
+          <item row="0" column="0" colspan="3">
+           <widget class="QPushButton" name="pushButton_sharpen">
+            <property name="text">
+             <string>Sharpen</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="pushButton_slt">
+          <item row="0" column="3" colspan="2">
+           <widget class="QPushButton" name="pushButton_sharpen2D">
             <property name="text">
-             <string>SLT</string>
+             <string>Sharpen2D</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="2">
-           <widget class="QCheckBox" name="checkBox_extendedSlt">
+          <item row="1" column="1">
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>Extended</string>
+             <string>Range</string>
             </property>
            </widget>
           </item>
