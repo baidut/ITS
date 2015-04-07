@@ -535,3 +535,64 @@ void MainWindow::on_pushButton_resume_clicked()
     imgProc = image.clone();
     emit imageProcessed();
 }
+
+
+// 中值虽然可以滤去噪声，但是计算复杂度高
+inline uchar median(uchar a,uchar b,uchar c){
+    return a > b ? (b > c ? b : (a > c ? c : a)) : (a > c ? a : (b > c ? c : b));
+}
+
+void MainWindow::on_pushButton_detectLanes_clicked()
+{
+    // 先将图像倒置？没必要
+    // 是否利用色彩信息？基于色彩肯定更准确，但这里暂不做相关研究
+    // 先完成找突变标定工作
+    imgProc = image.clone();
+
+    int L1, L2 = 0, R1 = image.cols, R2, M = image.cols / 2;
+    int max, min;
+
+
+    for (int j = image.rows-1; j; j--){
+        const uchar* r = image.ptr<const uchar>(j);
+        uchar* output = imgProc.ptr<uchar>(j);
+
+        max = min = median(r[M-1],r[M],r[M+1]);
+        max += 10;
+        min -= 10;
+
+        for (int i = M - 3; i > 1 ; i -= 3){
+            uchar cur = median(r[i-1],r[i],r[i+1]);
+            if (cur > max){
+                if (cur - max >  (max - min) ){
+                    output[i] = 255;
+                    output[i-1] = output[i+1] = 0; // 更清晰
+                    L2 = i;
+                    break;
+                }
+                else max = cur;
+            }
+            else if(cur < min){
+                min = cur;
+            }
+        }
+        for (int i = M + 3; i < image.cols - 1 ; i += 3){
+            uchar cur = median(r[i-1],r[i],r[i+1]);
+            if (cur > max){
+                if (cur - max >  (max - min) ){
+                    output[i] = 255;
+                    output[i-1] = output[i+1] = 0; // 更清晰
+                    R1 = i;
+                    break;
+                }
+                else max = cur;
+            }
+            else if(cur < min){
+                min = cur;
+            }
+        }
+        //M = (R1 + L2) / 2;
+        //output[M-1] = output[M+1] = output[M] = 0; // 标中线
+    }
+    emit imageProcessed();
+}
