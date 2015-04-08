@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>773</width>
-    <height>534</height>
+    <height>483</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,6 +98,31 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_histogram">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Histogram</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -110,7 +135,7 @@
        <item row="0" column="0">
         <widget class="QToolBox" name="toolBox">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -128,15 +153,15 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page_3">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>250</width>
-            <height>288</height>
+            <width>233</width>
+            <height>282</height>
            </rect>
           </property>
           <attribute name="label">
@@ -156,13 +181,6 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QPushButton" name="pushButton_flip">
-                <property name="text">
-                 <string>Flip</string>
-                </property>
-               </widget>
-              </item>
               <item row="2" column="1">
                <widget class="QPushButton" name="pushButton_reduceColor">
                 <property name="text">
@@ -170,10 +188,17 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton_gray">
+              <item row="0" column="1">
+               <widget class="QPushButton" name="pushButton_detectLanes">
                 <property name="text">
-                 <string>Gray</string>
+                 <string>Detect Lanes</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QPushButton" name="pushButton_flip">
+                <property name="text">
+                 <string>Flip</string>
                 </property>
                </widget>
               </item>
@@ -184,10 +209,10 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_detectLanes">
+              <item row="0" column="0">
+               <widget class="QPushButton" name="pushButton_gray">
                 <property name="text">
-                 <string>Detect Lanes</string>
+                 <string>Gray</string>
                 </property>
                </widget>
               </item>
@@ -249,13 +274,18 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="page">
+          <attribute name="label">
+           <string>Histogram</string>
+          </attribute>
+         </widget>
          <widget class="QWidget" name="page_4">
           <property name="geometry">
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>233</width>
-            <height>241</height>
+            <width>250</width>
+            <height>262</height>
            </rect>
           </property>
           <attribute name="label">

@@ -97,6 +97,15 @@ void MainWindow::on_image_changed(){
     cv::resize(image,imgResized,(image.cols>image.rows)?
                    cv::Size(100,100*image.rows/image.cols):cv::Size(100*image.cols/image.rows,100)); //利用OpenCV的缩放代替QT的缩放解决缩放bug
     display_image(imgResized,ui->label_img);
+
+    // 添加重绘直方图
+    // The histogram object
+    Histogram1D h;
+    // Compute the histogram
+    /*cv::MatND histo=*/ h.getHistogram(image);
+    // Display a histogram as an image
+    cv::resize(h.getHistogramImage(image),imgResized,cv::Size(100,100));
+    display_image(imgResized,ui->label_histogram);
 }
 
 void MainWindow::on_image_processed(){
