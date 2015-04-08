@@ -278,6 +278,85 @@
           <attribute name="label">
            <string>Histogram</string>
           </attribute>
+          <layout class="QGridLayout" name="gridLayout_14">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>thresh</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_thresh">
+             <property name="maximum">
+              <double>255.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>128.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QDoubleSpinBox" name="doubleSpinBox_maxval">
+             <property name="maximum">
+              <double>255.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>255.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>maxval</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QComboBox" name="comboBox_threshType">
+             <item>
+              <property name="text">
+               <string>BINARY</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>BINARY_INV</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>TRUNC</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>TOZERO</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>TOZERO_INV</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>type</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QPushButton" name="pushButton_threshold">
+             <property name="text">
+              <string>Threshold</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="page_4">
           <property name="geometry">
@@ -479,7 +558,7 @@
      <string>File</string>
     </property>
     <addaction name="action_openFile"/>
-    <addaction name="actionSavw"/>
+    <addaction name="actionSave"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -498,7 +577,7 @@
     <string>Open...</string>
    </property>
   </action>
-  <action name="actionSavw">
+  <action name="actionSave">
    <property name="text">
     <string>Save</string>
    </property>
@@ -514,12 +593,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>473</x>
-     <y>237</y>
+     <x>729</x>
+     <y>236</y>
     </hint>
     <hint type="destinationlabel">
-     <x>577</x>
-     <y>237</y>
+     <x>729</x>
+     <y>268</y>
     </hint>
    </hints>
   </connection>
@@ -530,12 +609,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>496</x>
-     <y>454</y>
+     <x>729</x>
+     <y>319</y>
     </hint>
     <hint type="destinationlabel">
-     <x>577</x>
-     <y>456</y>
+     <x>729</x>
+     <y>363</y>
     </hint>
    </hints>
   </connection>
@@ -546,12 +625,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>410</x>
-     <y>346</y>
+     <x>620</x>
+     <y>331</y>
     </hint>
     <hint type="destinationlabel">
-     <x>577</x>
-     <y>327</y>
+     <x>729</x>
+     <y>362</y>
     </hint>
    </hints>
   </connection>
@@ -562,12 +641,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>493</x>
-     <y>346</y>
+     <x>729</x>
+     <y>331</y>
     </hint>
     <hint type="destinationlabel">
-     <x>577</x>
-     <y>327</y>
+     <x>729</x>
+     <y>362</y>
     </hint>
    </hints>
   </connection>
@@ -578,12 +657,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>383</x>
-     <y>254</y>
+     <x>620</x>
+     <y>207</y>
     </hint>
     <hint type="destinationlabel">
-     <x>577</x>
-     <y>237</y>
+     <x>729</x>
+     <y>268</y>
     </hint>
    </hints>
   </connection>
@@ -594,12 +673,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>410</x>
-     <y>384</y>
+     <x>620</x>
+     <y>391</y>
     </hint>
     <hint type="destinationlabel">
-     <x>577</x>
-     <y>386</y>
+     <x>729</x>
+     <y>393</y>
     </hint>
    </hints>
   </connection>
@@ -610,12 +689,60 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>455</x>
-     <y>474</y>
+     <x>729</x>
+     <y>278</y>
     </hint>
     <hint type="destinationlabel">
-     <x>539</x>
-     <y>447</y>
+     <x>729</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox_thresh</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>pushButton_threshold</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>658</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>667</x>
+     <y>328</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doubleSpinBox_maxval</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>pushButton_threshold</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>695</x>
+     <y>232</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>332</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox_threshType</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>pushButton_threshold</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>716</x>
+     <y>283</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>720</x>
+     <y>333</y>
     </hint>
    </hints>
   </connection>

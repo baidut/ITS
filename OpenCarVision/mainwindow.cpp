@@ -605,3 +605,12 @@ void MainWindow::on_pushButton_detectLanes_clicked()
     }
     emit imageProcessed();
 }
+
+void MainWindow::on_pushButton_threshold_clicked()
+{
+    cv::threshold(image,imgProc,
+                  ui->doubleSpinBox_thresh->value(),
+                  ui->doubleSpinBox_maxval->value(),
+                  ui->comboBox_threshType->currentIndex());
+    emit imageProcessed(); // TODO: 改成整个Process区域被点击后触发图像改变，触发顺序问题，需要等待处理完成
+}

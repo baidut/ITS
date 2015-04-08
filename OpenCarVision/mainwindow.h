@@ -63,6 +63,8 @@ private slots:
 
     void on_pushButton_detectLanes_clicked();
 
+    void on_pushButton_threshold_clicked();
+
 signals:
     void imageChanged();
     void imageProcessed();
