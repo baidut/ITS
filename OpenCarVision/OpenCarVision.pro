@@ -18,7 +18,8 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     linefinder.h \
     histogram.h \
-    edgedetector.h
+    edgedetector.h \
+    LaneDetect.h
 
 FORMS    += mainwindow.ui
 

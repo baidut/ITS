@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>773</width>
-    <height>483</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,20 +27,54 @@
        <string>Original</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="8" column="0">
-        <widget class="QGroupBox" name="groupBox_7">
-         <property name="title">
-          <string>Output</string>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_histogram">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <layout class="QFormLayout" name="formLayout_2">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton_2inch">
-            <property name="text">
-             <string>2-inch</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Histogram</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_img">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Image</string>
+         </property>
         </widget>
        </item>
        <item row="3" column="0">
@@ -73,54 +107,53 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_img">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="8" column="0">
+        <widget class="QGroupBox" name="groupBox_7">
+         <property name="title">
+          <string>Output</string>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Image</string>
-         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QPushButton" name="pushButton_2inch">
+            <property name="text">
+             <string>2-inch</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_histogram">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="9" column="0">
+        <widget class="QGroupBox" name="groupBox_ROI">
+         <property name="title">
+          <string>ROI</string>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Histogram</string>
-         </property>
+         <layout class="QGridLayout" name="gridLayout_15">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="radioButton_whole">
+            <property name="text">
+             <string>Whole</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="radioButton_downHalf">
+            <property name="text">
+             <string>Down half</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QRadioButton" name="radioButton_3">
+            <property name="text">
+             <string>DIY</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -160,8 +193,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>233</width>
-            <height>282</height>
+            <width>250</width>
+            <height>392</height>
            </rect>
           </property>
           <attribute name="label">
@@ -275,6 +308,14 @@
           </layout>
          </widget>
          <widget class="QWidget" name="page">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>250</width>
+            <height>392</height>
+           </rect>
+          </property>
           <attribute name="label">
            <string>Histogram</string>
           </attribute>
@@ -364,7 +405,7 @@
             <x>0</x>
             <y>0</y>
             <width>250</width>
-            <height>262</height>
+            <height>392</height>
            </rect>
           </property>
           <attribute name="label">
@@ -477,6 +518,14 @@
           </layout>
          </widget>
          <widget class="QWidget" name="page_5">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>250</width>
+            <height>392</height>
+           </rect>
+          </property>
           <attribute name="label">
            <string>Binary</string>
           </attribute>

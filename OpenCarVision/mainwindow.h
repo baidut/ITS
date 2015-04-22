@@ -73,6 +73,7 @@ private:
     Ui::MainWindow *ui; 
     QString fileName;
     cv::Mat image;
+    cv::Mat imageROI;
     cv::Mat imgProc;
 };
 
