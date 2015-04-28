@@ -553,10 +553,15 @@ inline uchar median(uchar a,uchar b,uchar c){
 
 void MainWindow::on_pushButton_detectLanes_clicked()
 {
+    // 建议通过面向对象方式完成
+    // 先灰度化
+    cv::cvtColor(image,imgProc,CV_BGR2GRAY);// 需要根据图像源采取不同处理
+    // TODO...
+
+#if 0 // 智能小车的算法实现起来比较麻烦
     // 先将图像倒置？没必要
     // 是否利用色彩信息？基于色彩肯定更准确，但这里暂不做相关研究
     // 先完成找突变标定工作
-    imgProc = image.clone();
 
     int L1, L2 = 0, R1 = image.cols, R2, M = image.cols / 2;
     int max, min;
@@ -603,6 +608,7 @@ void MainWindow::on_pushButton_detectLanes_clicked()
         //M = (R1 + L2) / 2;
         //output[M-1] = output[M+1] = output[M] = 0; // 标中线
     }
+#endif
     emit imageProcessed();
 }
 
@@ -613,51 +619,4 @@ void MainWindow::on_pushButton_threshold_clicked()
                   ui->doubleSpinBox_maxval->value(),
                   ui->comboBox_threshType->currentIndex());
     emit imageProcessed(); // TODO: 改成整个Process区域被点击后触发图像改变，触发顺序问题，需要等待处理完成
-}
-
-
-#include "LaneDetect.h"
-
-void makeFromVid(string path)
-{
-    Mat frame;
-    VideoCapture cap(path); // open the video file for reading
-
-    if ( !cap.isOpened() )  // if not success, exit program
-        cout << "Cannot open the video file" << endl;
-
-    //cap.set(CV_CAP_PROP_POS_MSEC, 300); //start the video at 300ms
-
-    double fps = cap.get(CV_CAP_PROP_FPS); //get the frames per seconds of the video
-    cout << "Input video's Frame per seconds : " << fps << endl;
-
-    cap.read(frame);
-    LaneDetect detect(frame);
-
-    while(1)
-    {
-        bool bSuccess = cap.read(frame); // read a new frame from video
-        if (!bSuccess)                   //if not success, break loop
-        {
-            cout << "Cannot read the frame from video file" << endl;
-            break;
-        }
-
-        cvtColor(frame, frame, CV_BGR2GRAY);
-
-        //start = clock();
-        detect.nextFrame(frame);
-        //stop =clock();
-        // cout<<"fps : "<<1.0/(((double)(stop-start))/ CLOCKS_PER_SEC)<<endl;
-
-        if(waitKey(10) == 27) //wait for 'esc' key press for 10 ms. If 'esc' key is pressed, break loop
-        {
-            cout<<"video paused!, press q to quit, any other key to continue"<<endl;
-            if(waitKey(0) == 'q')
-            {
-                cout << "terminated by user" << endl;
-                break;
-            }
-        }
-    }
 }

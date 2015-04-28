@@ -186,7 +186,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="page_3">
           <property name="geometry">
@@ -194,7 +194,7 @@
             <x>0</x>
             <y>0</y>
             <width>250</width>
-            <height>392</height>
+            <height>366</height>
            </rect>
           </property>
           <attribute name="label">
@@ -218,13 +218,6 @@
                <widget class="QPushButton" name="pushButton_reduceColor">
                 <property name="text">
                  <string>Reduce Color</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_detectLanes">
-                <property name="text">
-                 <string>Detect Lanes</string>
                 </property>
                </widget>
               </item>
@@ -313,7 +306,7 @@
             <x>0</x>
             <y>0</y>
             <width>250</width>
-            <height>392</height>
+            <height>366</height>
            </rect>
           </property>
           <attribute name="label">
@@ -405,7 +398,7 @@
             <x>0</x>
             <y>0</y>
             <width>250</width>
-            <height>392</height>
+            <height>366</height>
            </rect>
           </property>
           <attribute name="label">
@@ -523,7 +516,7 @@
             <x>0</x>
             <y>0</y>
             <width>250</width>
-            <height>392</height>
+            <height>366</height>
            </rect>
           </property>
           <attribute name="label">
@@ -578,6 +571,24 @@
             </widget>
            </item>
           </layout>
+         </widget>
+         <widget class="QWidget" name="page_2">
+          <attribute name="label">
+           <string>Lane Detection</string>
+          </attribute>
+          <widget class="QPushButton" name="pushButton_detectLanes">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>80</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Detect Lanes</string>
+           </property>
+          </widget>
          </widget>
         </widget>
        </item>

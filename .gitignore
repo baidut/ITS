@@ -7,6 +7,8 @@ tmp
 
 # 忽略Qt的build文件
 build-*
+# 忽略user
+*.user
 
 *.autosave
 OpenCarVison\OpenCarVison.pro.user
