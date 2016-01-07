@@ -620,3 +620,21 @@ void MainWindow::on_pushButton_threshold_clicked()
                   ui->comboBox_threshType->currentIndex());
     emit imageProcessed(); // TODO: 改成整个Process区域被点击后触发图像改变，触发顺序问题，需要等待处理完成
 }
+
+void MainWindow::on_pushButton_loadCamvid_clicked()
+{
+    ui->spinBox_camvidNo->setValue(1);
+    ui->label_camvid_legend->imshow("../SegNet/legend.jpg");
+}
+
+void MainWindow::on_spinBox_camvidNo_valueChanged(int arg1)
+{
+    ui->label_camvid_raw->imshow(QString("../SegNet/raw/%1.jpg").arg(arg1));
+    ui->label_camvid_gt->imshow(QString("../SegNet/gt/%1.jpg").arg(arg1));
+    ui->label_camvid_res->imshow(QString("../SegNet/res/%1.jpg").arg(arg1));
+}
+
+void MainWindow::on_pushButton_play_clicked(bool checked)
+{
+
+}

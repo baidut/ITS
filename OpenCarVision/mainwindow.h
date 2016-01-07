@@ -65,6 +65,12 @@ private slots:
 
     void on_pushButton_threshold_clicked();
 
+    void on_pushButton_loadCamvid_clicked();
+
+    void on_spinBox_camvidNo_valueChanged(int arg1);
+
+    void on_pushButton_play_clicked(bool checked);
+
 signals:
     void imageChanged();
     void imageProcessed();

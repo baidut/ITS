@@ -4,6 +4,13 @@ report
 tmp
 # build-OpenCarVision-Desktop_Qt_5_2_1_MinGW_32bit-Debug
 # build-OpenCarVision-Desktop_Qt_5_2_1_MinGW_32bit-Release
+# Images
+testImages
+SegNet
+
+*pro.user*
+*zip
+
 
 # 忽略Qt的build文件
 build-*
@@ -57,3 +64,4 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+OpenCarVision/OpenCarVision.pro.user.3.2-pre1
