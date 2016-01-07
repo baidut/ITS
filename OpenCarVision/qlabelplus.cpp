@@ -48,7 +48,8 @@ void QLabelPlus::mousePressEvent(QMouseEvent* event)
 void QLabelPlus::imshow(cv::Mat image){
     QImage img;
     cv::Mat imageRGB;
-    qDebug("Channels:%d",image.channels());
+    // qDebug("Channels:%d",image.channels());
+
     if(1==image.channels()){
         img = QImage((const unsigned char*)(image.data),
                             image.cols,image.rows,image.cols,QImage::Format_Indexed8);
@@ -68,6 +69,7 @@ void QLabelPlus::imshow(cv::Mat image){
 }
 
 void QLabelPlus::imshow(char* imageUrl){
+    if(imageUrl == NULL||strcmp(imageUrl,"")==0)this->clear();
     this->imshow(cv::imread(imageUrl));
 }
 

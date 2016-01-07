@@ -612,6 +612,15 @@ void MainWindow::on_pushButton_detectLanes_clicked()
     emit imageProcessed();
 }
 
+// to be removed
+void MainWindow::load_dataset(int arg1, QString raw, QString gt, QString res)
+{
+    if(raw.isEmpty()) return;
+    ui->label_camvid_raw->imshow(QString(raw).arg(arg1));
+    ui->label_camvid_gt->imshow(QString(gt).arg(arg1));
+    ui->label_camvid_res->imshow(QString(res).arg(arg1));
+}
+
 void MainWindow::on_pushButton_threshold_clicked()
 {
     cv::threshold(image,imgProc,
@@ -623,18 +632,142 @@ void MainWindow::on_pushButton_threshold_clicked()
 
 void MainWindow::on_pushButton_loadCamvid_clicked()
 {
-    ui->spinBox_camvidNo->setValue(1);
+    raw = "../SegNet/raw/%1.jpg";
+    gt = "../SegNet/gt/%1.jpg";
+    res = "../SegNet/res/%1.jpg";
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()+1);
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()-1);
+    ui->spinBox_camvidNo->setMaximum(232);
     ui->label_camvid_legend->imshow("../SegNet/legend.jpg");
 }
 
 void MainWindow::on_spinBox_camvidNo_valueChanged(int arg1)
 {
-    ui->label_camvid_raw->imshow(QString("../SegNet/raw/%1.jpg").arg(arg1));
-    ui->label_camvid_gt->imshow(QString("../SegNet/gt/%1.jpg").arg(arg1));
-    ui->label_camvid_res->imshow(QString("../SegNet/res/%1.jpg").arg(arg1));
+    load_dataset(arg1, raw, gt, res);
+    //ui->label_camvid_raw->imshow(QString("../SegNet/raw/%1.jpg").arg(arg1));
+    //ui->label_camvid_gt->imshow(QString("../SegNet/gt/%1.jpg").arg(arg1));
+    //ui->label_camvid_res->imshow(QString("../SegNet/res/%1.jpg").arg(arg1));
 }
 
 void MainWindow::on_pushButton_play_clicked(bool checked)
 {
 
+}
+
+
+void MainWindow::on_pushButton_loadCamvid4_clicked()
+{
+    raw = "../results/segnet_basic_cam_test/%1_raw.png";
+    gt = "../results/segnet_basic_cam_test/%1_gt.png";
+    res = "../results/segnet_basic_cam_test/%1_seg.png";
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()+1);
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()-1);
+    ui->spinBox_camvidNo->setMaximum(286);
+    ui->label_camvid_legend->clear();
+}
+
+void MainWindow::on_pushButton_loadKittiTrain_clicked()
+{
+    raw = "../results/segnet_basic_kit_train/%1_raw.png";
+    gt = "../results/segnet_basic_kit_train/%1_gt.png";
+    res = "../results/segnet_basic_kit_train/%1_seg.png";
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()+1);
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()-1);
+    ui->spinBox_camvidNo->setMaximum(286);
+    ui->label_camvid_legend->clear();
+}
+
+void MainWindow::on_pushButton_loadKittiTest_clicked()
+{
+    raw = "../results/segnet_basic_kit_test/%1_raw.png";
+    gt = "";
+    res = "../results/segnet_basic_kit_test/%1_seg.png";
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()+1);
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()-1);
+    ui->spinBox_camvidNo->setMaximum(290);
+    ui->label_camvid_legend->clear();
+}
+
+void MainWindow::on_pushButton_loadAfterRain_clicked()
+{
+    raw = "../results/segnet_basic_afterrain/%1_raw.png";
+    gt = "../results/segnet_basic_afterrain/%1_gt.png";
+    res = "../results/segnet_basic_afterrain/%1_seg.png";
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()+1);
+    ui->spinBox_camvidNo->setValue(ui->spinBox_camvidNo->value()-1);
+    ui->spinBox_camvidNo->setMaximum(285);
+    ui->label_camvid_legend->clear();
+}
+
+void MainWindow::on_pushButton_s2_afterrain_clicked()
+{
+    raw = "../results/segnet_basic_afterrain/%1_raw.png";
+    ui->spinBox_s2_no->setValue(ui->spinBox_s2_no->value()+1);
+    ui->spinBox_s2_no->setValue(ui->spinBox_s2_no->value()-1);
+    ui->spinBox_s2_no->setMaximum(285);
+}
+
+void MainWindow::on_spinBox_s2_no_valueChanged(int arg1)
+{
+    using namespace cv;
+    Mat raw_image;
+    Mat channel[3];
+    Mat V,V_MIN;
+    raw_image = imread(raw.arg(arg1).toLatin1().data());
+    split(raw_image,channel);
+
+//    imshow("original",img);
+//    imshow("B",channel[0]);
+//    imshow("G",channel[1]);
+//    imshow("R",channel[2]); 矫正亮度后再合并 HSV 矫正V为S2 去除阴影
+
+#define B (channel[0])
+#define G (channel[1])
+#define R (channel[2])
+
+    V = max(R,max(B,G));
+    V_MIN = min(R,min(B,G));
+
+    Mat V2; //(raw_image.rows, raw_image.cols, CV_64FC1);
+    V2 = max(V, Mat::ones(raw_image.rows, raw_image.cols, CV_8UC1));
+
+//    Mat S2(raw_image.rows, raw_image.cols, CV_64F);
+//    Mat S(raw_image.rows, raw_image.cols, CV_64F);
+
+//    S2 = (V - B) / V2;
+//    S = (V - V_MIN) / V2;
+//    Mat VminusB = V - B;
+//    VminusB.convertTo(VminusB, CV_64F);
+
+    // 可检测车辆
+    // equalizeHist(S2,S2);
+    // equalizeHist(S,S);
+
+    Mat S22(raw_image.rows, raw_image.cols, CV_8UC1);
+    Mat S(raw_image.rows, raw_image.cols, CV_8UC1);
+    for( int y = 0; y < S22.rows; y++ )
+    {
+       for( int x = 0; x < S22.cols; x++ )
+       {
+           S22.at<uchar>(y,x) = ( V.at<uchar>(y,x) - B.at<uchar>(y,x) ) * 255 / V2.at<uchar>(y,x)  ;
+           S.at<uchar>(y,x) = ( V.at<uchar>(y,x) - V_MIN.at<uchar>(y,x) ) * 255 / V2.at<uchar>(y,x)  ;
+       }
+    }
+
+    ui->label_raw_s2->imshow(raw_image);
+    ui->label_s2_s2->imshow(V - B);
+    ui->label_s_s2->imshow(S22);
+    ui->label_ii_s2->imshow(S);
+
+#undef B
+#undef G
+#undef R
+}
+
+void MainWindow::on_pushButton_s2_kitti_clicked()
+{
+    raw = "../results/segnet_basic_kit_train/%1_raw.png";
+    ui->spinBox_s2_no->setValue(ui->spinBox_s2_no->value()+1);
+    ui->spinBox_s2_no->setValue(ui->spinBox_s2_no->value()-1);
+    ui->spinBox_s2_no->setMaximum(286);
 }

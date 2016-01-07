@@ -71,6 +71,20 @@ private slots:
 
     void on_pushButton_play_clicked(bool checked);
 
+    void on_pushButton_loadCamvid4_clicked();
+
+    void on_pushButton_loadKittiTrain_clicked();
+
+    void on_pushButton_loadKittiTest_clicked();
+
+    void on_pushButton_loadAfterRain_clicked();
+
+    void on_pushButton_s2_afterrain_clicked();
+
+    void on_spinBox_s2_no_valueChanged(int arg1);
+
+    void on_pushButton_s2_kitti_clicked();
+
 signals:
     void imageChanged();
     void imageProcessed();
@@ -81,6 +95,12 @@ private:
     cv::Mat image;
     cv::Mat imageROI;
     cv::Mat imgProc;
+
+    // to be removed
+    QString raw;
+    QString gt;
+    QString res;
+    void load_dataset(int arg1, QString raw, QString gt, QString res);
 };
 
 #endif // MAINWINDOW_H
