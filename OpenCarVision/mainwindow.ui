@@ -210,8 +210,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>205</width>
-                <height>282</height>
+                <width>250</width>
+                <height>353</height>
                </rect>
               </property>
               <attribute name="label">
@@ -594,8 +594,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <attribute name="label">
@@ -729,91 +729,69 @@
        <attribute name="title">
         <string>Deshadow</string>
        </attribute>
-       <widget class="QGroupBox" name="groupBox_12">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>60</y>
-          <width>745</width>
-          <height>457</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>detection result</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_19">
-         <item row="0" column="0">
-          <widget class="QLabelPlus" name="label_raw_s2">
-           <property name="text">
-            <string>Raw</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabelPlus" name="label_ii_s2">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rgb2ii&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabelPlus" name="label_s_s2">
-           <property name="text">
-            <string>S</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabelPlus" name="label_s2_s2">
-           <property name="text">
-            <string>S2</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QSpinBox" name="spinBox_s2_no">
-        <property name="geometry">
-         <rect>
-          <x>650</x>
-          <y>30</y>
-          <width>101</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>232</number>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_s2_afterrain">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>20</y>
-          <width>141</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Load After-rain</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_s2_kitti">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>20</y>
-          <width>75</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Load kitti</string>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_20">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="pushButton_s2_afterrain">
+          <property name="text">
+           <string>Load After-rain</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pushButton_s2_kitti">
+          <property name="text">
+           <string>Load kitti</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QSpinBox" name="spinBox_s2_no">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>232</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="3">
+         <widget class="QGroupBox" name="groupBox_12">
+          <property name="title">
+           <string>detection result</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_19">
+           <item row="0" column="0">
+            <widget class="QLabelPlus" name="label_raw_s2">
+             <property name="text">
+              <string>Raw</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabelPlus" name="label_ii_s2">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rgb2ii&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabelPlus" name="label_s_s2">
+             <property name="text">
+              <string>S</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabelPlus" name="label_s2_s2">
+             <property name="text">
+              <string>S2</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">

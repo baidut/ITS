@@ -754,8 +754,20 @@ void MainWindow::on_spinBox_s2_no_valueChanged(int arg1)
        }
     }
 
+
+    //
+    Mat HSV, image2, image3;
+    Mat channel_hsv[3];
+    cvtColor(raw_image, HSV, COLOR_BGR2HSV);
+
+    split(HSV,channel_hsv);
+    channel_hsv[2] = S22; // 2
+
+    merge(channel_hsv,3,image2);
+    cvtColor(image2, image3, COLOR_HSV2BGR);
+
     ui->label_raw_s2->imshow(raw_image);
-    ui->label_s2_s2->imshow(V - B);
+    ui->label_s2_s2->imshow(image3);  // V - B
     ui->label_s_s2->imshow(S22);
     ui->label_ii_s2->imshow(S);
 
