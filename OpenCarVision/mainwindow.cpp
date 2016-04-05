@@ -11,6 +11,8 @@
 #include "histogram.h"
 #include "edgedetector.h"
 
+#include "datasetloader.h"
+
 #include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -782,4 +784,20 @@ void MainWindow::on_pushButton_s2_kitti_clicked()
     ui->spinBox_s2_no->setValue(ui->spinBox_s2_no->value()+1);
     ui->spinBox_s2_no->setValue(ui->spinBox_s2_no->value()-1);
     ui->spinBox_s2_no->setMaximum(286);
+}
+
+void MainWindow::on_spinBox_nFrameOfDataset_valueChanged(int arg1)
+{
+    ui->label_rawdata->imshow(QString("E:\Sync\my\project\datasets\nicta-RoadImageDatabase\After-Rain\after_rain%05d.tif").arg(arg1));
+//    raw = "../results/segnet_basic_afterrain/%1_raw.png";
+//    if(raw.isEmpty()) return;
+//    ui->label_camvid_raw->imshow(QString(raw).arg(arg1));
+//    ui->label_camvid_gt->imshow(QString(gt).arg(arg1));
+//    ui->label_camvid_res->imshow(QString(res).arg(arg1));
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+    DatasetLoader loader;
+    loader.writeTemplate("nicta-RoadImageDatabase.xml");
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>787</width>
-    <height>639</height>
+    <height>641</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,100 @@
     <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Demo</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_14">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>511</width>
+          <height>484</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>detection result</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_22">
+         <item row="2" column="0">
+          <widget class="QLabelPlus" name="label_ii_s2_3">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rgb2ii&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabelPlus" name="label_rawdata">
+           <property name="text">
+            <string>Raw</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabelPlus" name="label_s_s2_3">
+           <property name="text">
+            <string>S</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabelPlus" name="label_s2_s2_3">
+           <property name="text">
+            <string>S2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="comboBox">
+           <item>
+            <property name="text">
+             <string>nicta-RoadImageDatabase-After-Rain</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>nicta-RoadImageDatabase-Sunny-Shadows</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Dataset</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_13">
+        <property name="geometry">
+         <rect>
+          <x>540</x>
+          <y>20</y>
+          <width>211</width>
+          <height>481</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Control Panel</string>
+        </property>
+        <widget class="QSpinBox" name="spinBox_nFrameOfDataset">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>42</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
         <string>Basic</string>
@@ -211,7 +303,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>250</width>
-                <height>353</height>
+                <height>351</height>
                </rect>
               </property>
               <attribute name="label">
@@ -808,7 +900,7 @@
      <x>0</x>
      <y>0</y>
      <width>787</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -818,7 +910,14 @@
     <addaction name="action_openFile"/>
     <addaction name="actionSave"/>
    </widget>
+   <widget class="QMenu" name="menuDataset">
+    <property name="title">
+     <string>Dataset</string>
+    </property>
+    <addaction name="actionLoad"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuDataset"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -838,6 +937,11 @@
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="text">
+    <string>load</string>
    </property>
   </action>
  </widget>

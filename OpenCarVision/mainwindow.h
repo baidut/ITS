@@ -85,11 +85,16 @@ private slots:
 
     void on_pushButton_s2_kitti_clicked();
 
+    void on_spinBox_nFrameOfDataset_valueChanged(int arg1);
+
+    void on_actionLoad_triggered();
+
 signals:
     void imageChanged();
     void imageProcessed();
 
 private:
+    QStringList datasetPathList;
     Ui::MainWindow *ui; 
     QString fileName;
     cv::Mat image;
