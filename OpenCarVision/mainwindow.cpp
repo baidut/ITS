@@ -788,12 +788,19 @@ void MainWindow::on_pushButton_s2_kitti_clicked()
 
 void MainWindow::on_spinBox_nFrameOfDataset_valueChanged(int arg1)
 {
-    ui->label_rawdata->imshow(QString("E:\Sync\my\project\datasets\nicta-RoadImageDatabase\After-Rain\after_rain%05d.tif").arg(arg1));
-//    raw = "../results/segnet_basic_afterrain/%1_raw.png";
-//    if(raw.isEmpty()) return;
-//    ui->label_camvid_raw->imshow(QString(raw).arg(arg1));
-//    ui->label_camvid_gt->imshow(QString(gt).arg(arg1));
-//    ui->label_camvid_res->imshow(QString(res).arg(arg1));
+    Q_ASSERT(arg1<=rawFiles.count());
+//    ui->label_rawdata->imshow(QString("E:\Sync\my\project\datasets\nicta-RoadImageDatabase\After-Rain\after_rain%05d.tif").arg(arg1));
+    cv::Mat rawImg,gtImg,addingImg;
+    double alpha,beta;
+
+    rawImg = cv::imread(this->rawFiles.at(arg1).toLatin1().data());
+    gtImg = cv::imread(this->roadGtFiles.at(arg1).toLatin1().data()); // TODO: add ACF imread
+
+    alpha = ui->horizontalSlider_plendAlpha->value()/100.0;
+    beta = ( 1.0 - alpha );
+    addWeighted( rawImg, alpha, gtImg, beta, 0.0, addingImg);
+
+    ui->label_rawdata->imshow(addingImg);
 }
 
 void MainWindow::on_actionLoad_triggered()
@@ -807,8 +814,16 @@ void MainWindow::on_actionLoad_triggered()
 
 void MainWindow::on_comboBox_datasetName_currentIndexChanged(int index)
 {
-    QStringList files = this->loader.getFiles(index,"raw");
+    this->rawFiles = this->loader.getFiles(index,"raw");
+    this->roadGtFiles = this->loader.getFiles(index,"gt-road");
 //    qDebug()<<files;
     ui->spinBox_nFrameOfDataset->setMinimum(1);
-    ui->spinBox_nFrameOfDataset->setMaximum(files.count()); // +1
+    ui->spinBox_nFrameOfDataset->setMaximum(rawFiles.count()); // +1
+    if (ui->spinBox_nFrameOfDataset->value() > rawFiles.count())
+        ui->spinBox_nFrameOfDataset->setValue(rawFiles.count());
+}
+
+void MainWindow::on_horizontalSlider_plendAlpha_valueChanged(int value)
+{
+    emit on_spinBox_nFrameOfDataset_valueChanged(ui->spinBox_nFrameOfDataset->value());
 }

@@ -40,7 +40,7 @@ private:
             }
             else if (fi.isFile()){
                 // do_something_with_file(fi);
-                files << fi.fileName();
+                files << QString("%1\\%2").arg(this->path).arg(fi.fileName());
 
             }
             else{}

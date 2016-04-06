@@ -93,6 +93,8 @@ private slots:
 
     void on_comboBox_datasetName_currentIndexChanged(int index);
 
+    void on_horizontalSlider_plendAlpha_valueChanged(int value);
+
 signals:
     void imageChanged();
     void imageProcessed();
@@ -107,6 +109,9 @@ private:
 
 
     DatasetLoader loader;
+    QStringList files;
+    QStringList rawFiles;
+    QStringList roadGtFiles;
     // to be removed
     QString raw;
     QString gt;

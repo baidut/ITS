@@ -24,103 +24,64 @@
        <attribute name="title">
         <string>Demo</string>
        </attribute>
-       <widget class="QGroupBox" name="groupBox_14">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>511</width>
-          <height>484</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>detection result</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_22">
-         <item row="2" column="0">
-          <widget class="QLabelPlus" name="label_ii_s2_3">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rgb2ii&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabelPlus" name="label_rawdata">
-           <property name="text">
-            <string>Raw</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabelPlus" name="label_s_s2_3">
-           <property name="text">
-            <string>S</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabelPlus" name="label_s2_s2_3">
-           <property name="text">
-            <string>S2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="comboBox">
-           <item>
-            <property name="text">
-             <string>nicta-RoadImageDatabase-After-Rain</string>
-            </property>
+       <layout class="QGridLayout" name="gridLayout_21">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_14">
+          <property name="title">
+           <string>detection result</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_22">
+           <item row="0" column="0">
+            <widget class="QLabelPlus" name="label_rawdata">
+             <property name="text">
+              <string>Raw</string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <property name="text">
-             <string>nicta-RoadImageDatabase-Sunny-Shadows</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Dataset</string>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="groupBox_13">
+          <property name="title">
+           <string>Control Panel</string>
+          </property>
+          <widget class="QSpinBox" name="spinBox_nFrameOfDataset">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>42</width>
+             <height>22</height>
+            </rect>
            </property>
           </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_13">
-        <property name="geometry">
-         <rect>
-          <x>540</x>
-          <y>20</y>
-          <width>211</width>
-          <height>481</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Control Panel</string>
-        </property>
-        <widget class="QSpinBox" name="spinBox_nFrameOfDataset">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>42</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="comboBox_datasetName">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>50</y>
-           <width>191</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
+          <widget class="QComboBox" name="comboBox_datasetName">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>50</y>
+             <width>191</width>
+             <height>22</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QSlider" name="horizontalSlider_plendAlpha">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>90</y>
+             <width>160</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -312,8 +273,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>233</width>
-                <height>282</height>
+                <width>250</width>
+                <height>351</height>
                </rect>
               </property>
               <attribute name="label">
