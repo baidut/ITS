@@ -19,8 +19,8 @@
 #include "datasetloader.h"
 
 #include <QDir>
-#include <QtXML>
 #include <QStringList>
+#include <QMessageBox>
 
 //#include <opencv2/imgproc/imgproc.hpp> // cvtColor
 //#include <opencv2/highgui/highgui.hpp> // imread
@@ -30,37 +30,85 @@ DatasetLoader::DatasetLoader()
 
 }
 
+bool DatasetLoader::import(QString xmlFile)
+{
+    // open xmlFile and load data
+    QFile file(xmlFile);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        qDebug() << "Error: Open the file for importing failed";
+        return false;
+    }
+
+    QString errorStr;
+    int errorLine;
+    int errorColumn;
+
+    QDomDocument doc;
+    if (!doc.setContent(&file, false, &errorStr, &errorLine,
+                        &errorColumn)) {
+        qDebug() << QString("XML Parse error at line %1, column %2: %3")
+                    .arg(errorLine).arg(errorColumn).arg(errorStr);
+        return false;
+    }
+
+    QDomElement root = doc.documentElement();
+    if (root.tagName() != "dataset") {
+        qDebug() << "Not a valid dataset file";
+        return false;
+    }
+
+    this->rootPath = root.attribute("Path");
+    this->name = root.attribute("Name");
+    return parseXml(root);
+}
+
+bool DatasetLoader::parseXml(const QDomElement &element)
+{
+    qDebug() << "parseXml...";
+    this->number = 0;
+
+    QDomNode child = element.firstChild();
+
+    while(!child.isNull()){
+        if(child.toElement().tagName()=="folder") {
+            if(false == parseXmlFolder(child.toElement())){
+                return false;
+            }
+        }
+        child = child.nextSibling();
+    }
+    return true;
+}
+
+bool DatasetLoader::parseXmlFolder(const QDomElement &element)
+{ // construct subdatasets
+    QMap<QString, QString> selectors;
+    QDomNode child = element.firstChild();
+
+    qDebug() << "parseXmlFolder...";
+    this->number++;
+    while(!child.isNull()){
+        if(child.toElement().tagName()=="file") {
+            QString name = child.toElement().attribute("Name");
+            QString selector = child.toElement().attribute("Selector");
+            selectors[name] = selector;
+        }
+        child = child.nextSibling();
+    }
+
+    this->subdatasets.append(
+               Dataset(
+                element.attribute("Name"),
+                QString("%1\\%2").arg(this->rootPath).arg(element.attribute("Path")),
+                selectors) );
+    return true;
+}
 
 #if 1
-
-#define DATASET "dataset"
-#define FILE    "file"
 //const QString DatasetLoader::DATASET( "dataset" );
 //const QString DatasetLoader::FILE( "file" );
 
-// http://www.qtcentre.org/threads/61195-glob-like-fuction-to-list-all-files-in-subfolders-that-match-wildcard
-QStringList DatasetLoader::dir(const QString path, const QString filters)
-{
-    QStringList files;
-    QDir dir(path);
-    QStringList name_filters;
-    name_filters << filters;
-    QFileInfoList fil = dir.entryInfoList(name_filters, QDir::NoDotAndDotDot|QDir::AllDirs|QDir::Files);
-    for (int i = 0; i < fil.size(); i++)
-    {
-        QFileInfo fi = fil.at(i);
-        if (fi.isDir()){
-            // recursive
-            // dir(fi.absolutePath());
-        }
-        else if (fi.isFile()){
-            // do_something_with_file(fi);
-            files << fi.fileName();
-        }
-        else{}
-    }
-    return files;
-}
+
 
 void DatasetLoader::writeTemplate(QString outFile)
 {
@@ -70,9 +118,9 @@ void DatasetLoader::writeTemplate(QString outFile)
     QDomDocument document;
 
     // Making the root element
-    QDomElement root = document.createElement(DATASET);
+    QDomElement root = document.createElement("dataset");
     root.setAttribute("Name", "nicta-RoadImageDatabase");
-    root.setAttribute("Path", "After-Rain");
+    root.setAttribute("Path", "E:\\Sync\\my\\project\\datasets\\nicta-RoadImageDatabase");
 
     // Adding the root element to the docuemnt
     document.appendChild(root);
@@ -83,7 +131,7 @@ void DatasetLoader::writeTemplate(QString outFile)
 
     for(int i = 0; i < subfolder.size(); i++)
     {
-        QDomElement dorm = document.createElement(DATASET);
+        QDomElement dorm = document.createElement("folder");
         dorm.setAttribute("Name", subfolder.at(i));
         dorm.setAttribute("Path", subfolder.at(i));
         dorm.setAttribute("ID", QString::number(i+1)); // id start from 1
@@ -91,13 +139,13 @@ void DatasetLoader::writeTemplate(QString outFile)
 
         // Adding rooms to each dorm building
         {
-            QDomElement file = document.createElement(FILE);
+            QDomElement file = document.createElement("file");
             file.setAttribute("Name", "raw");
             file.setAttribute("Selector", "*.tif");
             dorm.appendChild(file);
         }
         {
-            QDomElement file = document.createElement(FILE);
+            QDomElement file = document.createElement("file");
             file.setAttribute("Name", "gt-road");
             file.setAttribute("Selector", "*.png");
             dorm.appendChild(file);

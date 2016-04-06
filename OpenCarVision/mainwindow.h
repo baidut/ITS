@@ -7,6 +7,8 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+#include "datasetloader.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -89,6 +91,8 @@ private slots:
 
     void on_actionLoad_triggered();
 
+    void on_comboBox_datasetName_currentIndexChanged(int index);
+
 signals:
     void imageChanged();
     void imageProcessed();
@@ -101,6 +105,8 @@ private:
     cv::Mat imageROI;
     cv::Mat imgProc;
 
+
+    DatasetLoader loader;
     // to be removed
     QString raw;
     QString gt;

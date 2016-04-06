@@ -110,6 +110,16 @@
           </rect>
          </property>
         </widget>
+        <widget class="QComboBox" name="comboBox_datasetName">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>191</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab">
@@ -302,8 +312,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>250</width>
-                <height>351</height>
+                <width>233</width>
+                <height>282</height>
                </rect>
               </property>
               <attribute name="label">

@@ -24,7 +24,8 @@ HEADERS  += mainwindow.h \
     edgedetector.h \
     LaneDetect.h \
     qlabelplus.h \
-    datasetloader.h
+    datasetloader.h \
+    dataset.h
 
 FORMS    += mainwindow.ui
 

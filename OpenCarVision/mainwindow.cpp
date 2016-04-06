@@ -798,6 +798,17 @@ void MainWindow::on_spinBox_nFrameOfDataset_valueChanged(int arg1)
 
 void MainWindow::on_actionLoad_triggered()
 {
-    DatasetLoader loader;
-    loader.writeTemplate("nicta-RoadImageDatabase.xml");
+//    loader.writeTemplate("nicta-RoadImageDatabase.xml");
+    loader.import("nicta-RoadImageDatabase.xml");
+    qDebug()<<loader.getNames();
+    qDebug()<<"load ok";
+    ui->comboBox_datasetName->addItems(loader.getNames());
+}
+
+void MainWindow::on_comboBox_datasetName_currentIndexChanged(int index)
+{
+    QStringList files = this->loader.getFiles(index,"raw");
+//    qDebug()<<files;
+    ui->spinBox_nFrameOfDataset->setMinimum(1);
+    ui->spinBox_nFrameOfDataset->setMaximum(files.count()); // +1
 }
