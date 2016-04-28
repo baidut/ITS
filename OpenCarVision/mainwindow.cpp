@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     connect(this,SIGNAL(imageChanged()),this,SLOT(on_image_changed()));
     connect(this,SIGNAL(imageProcessed()),this,SLOT(on_image_processed()));
+
+
+    timer = new QTimer(this);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(on_timeout()));
 }
 
 MainWindow::~MainWindow()
@@ -818,12 +822,38 @@ void MainWindow::on_comboBox_datasetName_currentIndexChanged(int index)
     this->roadGtFiles = this->loader.getFiles(index,"gt-road");
 //    qDebug()<<files;
     ui->spinBox_nFrameOfDataset->setMinimum(1);
-    ui->spinBox_nFrameOfDataset->setMaximum(rawFiles.count()); // +1
-    if (ui->spinBox_nFrameOfDataset->value() > rawFiles.count())
+    ui->spinBox_nFrameOfDataset->setMaximum(rawFiles.count()-1); // +1
+
+    ui->horizontalSlider_PlayProgress->setMaximum(rawFiles.count()-1);
+
+    if (ui->spinBox_nFrameOfDataset->value() > rawFiles.count()) {
         ui->spinBox_nFrameOfDataset->setValue(rawFiles.count());
+    }
+
 }
 
 void MainWindow::on_horizontalSlider_plendAlpha_valueChanged(int value)
 {
     emit on_spinBox_nFrameOfDataset_valueChanged(ui->spinBox_nFrameOfDataset->value());
+}
+
+void MainWindow::on_pushButton_playVideo_clicked(bool checked)
+{
+    if(checked){
+        int fps = ui->spinBox_playFps->value();
+        timer->start(1000/fps); //time specified in ms
+        ui->pushButton_playVideo->setText("Pause");
+    } else {
+        timer->stop();
+        ui->pushButton_playVideo->setText("Play");
+    }
+}
+
+void MainWindow::on_timeout()
+{
+    int value = ui->spinBox_nFrameOfDataset->value();
+    int max = ui->spinBox_nFrameOfDataset->maximum();
+    if (value < max) {
+        ui->spinBox_nFrameOfDataset->setValue(value+1);
+    }
 }

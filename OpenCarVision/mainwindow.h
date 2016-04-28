@@ -95,6 +95,10 @@ private slots:
 
     void on_horizontalSlider_plendAlpha_valueChanged(int value);
 
+    void on_pushButton_playVideo_clicked(bool checked);
+
+    void on_timeout();
+
 signals:
     void imageChanged();
     void imageProcessed();
@@ -106,6 +110,8 @@ private:
     cv::Mat image;
     cv::Mat imageROI;
     cv::Mat imgProc;
+
+    QTimer *timer;
 
 
     DatasetLoader loader;
