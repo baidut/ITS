@@ -16,7 +16,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     qlabelplus.cpp \
-    datasetloader.cpp
+    datasetloader.cpp \
+    roaddrawer.cpp \
+    cardrawer.cpp \
+    cv_utils.cpp
 
 HEADERS  += mainwindow.h \
     linefinder.h \
@@ -25,7 +28,12 @@ HEADERS  += mainwindow.h \
     LaneDetect.h \
     qlabelplus.h \
     datasetloader.h \
-    dataset.h
+    dataset.h \
+    ui_utils.h \
+    roaddrawer.h \
+    cardrawer.h \
+    common.h \
+    cv_utils.h
 
 FORMS    += mainwindow.ui
 
@@ -58,3 +66,5 @@ LIBS += D:/OpenCV/lib/libopencv_calib3d310.dll.a \
 
 RESOURCES += \
     images.qrc
+
+CONFIG += c++11

@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <ui_utils.h>
 
 #include "linefinder.h"
 #include "histogram.h"
@@ -26,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(on_timeout()));
+
+    roadDrawer = new RoadDrawer();
 }
 
 MainWindow::~MainWindow()
@@ -794,17 +797,26 @@ void MainWindow::on_spinBox_nFrameOfDataset_valueChanged(int arg1)
 {
     Q_ASSERT(arg1<=rawFiles.count());
 //    ui->label_rawdata->imshow(QString("E:\Sync\my\project\datasets\nicta-RoadImageDatabase\After-Rain\after_rain%05d.tif").arg(arg1));
-    cv::Mat rawImg,gtImg,addingImg;
-    double alpha,beta;
+
+    cv::Mat rawImg;
+    QColor colorSetting;
 
     rawImg = cv::imread(this->rawFiles.at(arg1).toLatin1().data());
-    gtImg = cv::imread(this->roadGtFiles.at(arg1).toLatin1().data()); // TODO: add ACF imread
+    double alpha = ui->horizontalSlider_plendAlpha->value()/100.0;
 
-    alpha = ui->horizontalSlider_plendAlpha->value()/100.0;
-    beta = ( 1.0 - alpha );
-    addWeighted( rawImg, alpha, gtImg, beta, 0.0, addingImg);
+    this->roadDrawer->setAlpha(alpha);
+    colorSetting = ui->toolButton_carBoxColor->palette().color(QPalette::Window);
+    // cv::Scalar color2 = cv::Scalar(colorSetting.red(),colorSetting.green(), colorSetting.blue());
 
-    ui->label_rawdata->imshow(addingImg);
+    qDebug()<<colorSetting;
+    this->roadDrawer->addColorPair(QColor(255, 255, 255), QColor(255, 170, 255) ); // colorSetting
+
+    this->roadDrawer->drawResult(arg1,rawImg);
+    ui->label_rawdata->imshow(rawImg);
+
+    // How to get the color QToolButton
+    // color of QPushButton or QToolButton
+
 }
 
 void MainWindow::on_actionLoad_triggered()
@@ -814,12 +826,17 @@ void MainWindow::on_actionLoad_triggered()
     qDebug()<<loader.getNames();
     qDebug()<<"load ok";
     ui->comboBox_datasetName->addItems(loader.getNames());
+
+    this->roadDrawer->loadResultFile(this->roadGtFiles); // TODO: remove roadGtFiles
 }
 
 void MainWindow::on_comboBox_datasetName_currentIndexChanged(int index)
 {
     this->rawFiles = this->loader.getFiles(index,"raw");
     this->roadGtFiles = this->loader.getFiles(index,"gt-road");
+
+    this->roadDrawer->loadResultFile(this->roadGtFiles); // TODO: remove roadGtFiles
+
 //    qDebug()<<files;
     ui->spinBox_nFrameOfDataset->setMinimum(1);
     ui->spinBox_nFrameOfDataset->setMaximum(rawFiles.count()-1); // +1
@@ -856,4 +873,23 @@ void MainWindow::on_timeout()
     if (value < max) {
         ui->spinBox_nFrameOfDataset->setValue(value+1);
     }
+}
+
+
+
+void MainWindow::on_toolButton_roadColor_clicked()
+{
+    QColor color = QColorDialog::getColor();
+    QString s("background: #"
+                          + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
+                          + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
+                          + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";");
+    ui->toolButton_roadColor->setStyleSheet(s);
+    ui->toolButton_roadColor->update();
+}
+
+void MainWindow::on_toolButton_carBoxColor_clicked()
+{
+    QColor color = UI_Utils::colorPicker(ui->toolButton_carBoxColor);
+    qDebug() << color;
 }

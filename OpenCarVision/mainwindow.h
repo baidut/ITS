@@ -8,6 +8,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include "datasetloader.h"
+#include "roaddrawer.h"
 
 namespace Ui {
 class MainWindow;
@@ -99,6 +100,10 @@ private slots:
 
     void on_timeout();
 
+    void on_toolButton_roadColor_clicked();
+
+    void on_toolButton_carBoxColor_clicked();
+
 signals:
     void imageChanged();
     void imageProcessed();
@@ -118,6 +123,9 @@ private:
     QStringList files;
     QStringList rawFiles;
     QStringList roadGtFiles;
+
+
+    RoadDrawer *roadDrawer; // TODO: add destructor to clean roadDrawer
     // to be removed
     QString raw;
     QString gt;
