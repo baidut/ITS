@@ -33,5 +33,13 @@ CV_Utils::qcolor2scalar(QColor color)
 {
     int r,g,b;
     color.getRgb(&r, &g, &b);
-    return cv::Scalar(r,g,b);
+    // OPENCV-BGR
+    return cv::Scalar(b,g,r);
+}
+
+
+QColor
+CV_Utils::scalar2qcolor(cv::Scalar color)
+{
+    return QColor(color[2],color[1],color[0]);
 }

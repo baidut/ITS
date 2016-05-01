@@ -802,14 +802,21 @@ void MainWindow::on_spinBox_nFrameOfDataset_valueChanged(int arg1)
     QColor colorSetting;
 
     rawImg = cv::imread(this->rawFiles.at(arg1).toLatin1().data());
+    //rawImg = cv::resize();
     double alpha = ui->horizontalSlider_plendAlpha->value()/100.0;
 
     this->roadDrawer->setAlpha(alpha);
-    colorSetting = ui->toolButton_carBoxColor->palette().color(QPalette::Window);
-    // cv::Scalar color2 = cv::Scalar(colorSetting.red(),colorSetting.green(), colorSetting.blue());
 
-    qDebug()<<colorSetting;
-    this->roadDrawer->addColorPair(QColor(255, 255, 255), QColor(255, 170, 255) ); // colorSetting
+    if ( ui->checkBox_roadLabel->isChecked() ) {
+        // may make it very slow, resize first may be help
+
+        //color = widget.palette().color(QPalette.Background);
+        colorSetting = ui->toolButton_roadColor->palette().background().color();
+        // colorSetting = ui->toolButton_carBoxColor->palette().button().style().BackgroundColorRole;
+                //->palette().color(QToolButton::backgroundRole());
+        // cv::Scalar color2 = cv::Scalar(colorSetting.red(),colorSetting.green(), colorSetting.blue());
+        this->roadDrawer->setColorMap(QColor(255, 255, 255), colorSetting ); // QColor(255, 170, 255)
+    }
 
     this->roadDrawer->drawResult(arg1,rawImg);
     ui->label_rawdata->imshow(rawImg);
@@ -846,6 +853,8 @@ void MainWindow::on_comboBox_datasetName_currentIndexChanged(int index)
     if (ui->spinBox_nFrameOfDataset->value() > rawFiles.count()) {
         ui->spinBox_nFrameOfDataset->setValue(rawFiles.count());
     }
+
+    on_spinBox_nFrameOfDataset_valueChanged(ui->spinBox_nFrameOfDataset->value());
 
 }
 

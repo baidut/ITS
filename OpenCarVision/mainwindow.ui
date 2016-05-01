@@ -135,7 +135,7 @@
              </property>
              <layout class="QGridLayout" name="gridLayout_24">
               <item row="0" column="0">
-               <widget class="QCheckBox" name="checkBox">
+               <widget class="QCheckBox" name="checkBox_roadLabel">
                 <property name="text">
                  <string>Road</string>
                 </property>
@@ -178,7 +178,7 @@
               <item row="0" column="2">
                <widget class="QToolButton" name="toolButton_roadColor">
                 <property name="styleSheet">
-                 <string notr="true">background-color: rgb(255, 170, 255);</string>
+                 <string notr="true">background-color: rgb(255, 255, 0);</string>
                 </property>
                 <property name="text">
                  <string>...</string>
@@ -578,8 +578,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>250</width>
-                <height>383</height>
+                <width>205</width>
+                <height>282</height>
                </rect>
               </property>
               <attribute name="label">
@@ -962,8 +962,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>100</width>
-                <height>30</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
               <attribute name="label">

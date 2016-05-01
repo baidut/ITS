@@ -13,7 +13,7 @@ namespace CV_Utils {
 cv::Mat imread(QString filename);
 cv::Mat maskIfEq(cv::Mat image, cv::Scalar color);
 cv::Scalar qcolor2scalar(QColor color);
-
+QColor scalar2qcolor(cv::Scalar color);
 }
 
 #endif // CV_UTILS
