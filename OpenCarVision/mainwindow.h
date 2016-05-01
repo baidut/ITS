@@ -104,6 +104,10 @@ private slots:
 
     void on_toolButton_carBoxColor_clicked();
 
+    void on_checkBox_roadLabel_toggled(bool checked);
+
+    void on_checkBox_keepBackground_toggled(bool checked);
+
 signals:
     void imageChanged();
     void imageProcessed();

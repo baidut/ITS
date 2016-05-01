@@ -799,25 +799,12 @@ void MainWindow::on_spinBox_nFrameOfDataset_valueChanged(int arg1)
 //    ui->label_rawdata->imshow(QString("E:\Sync\my\project\datasets\nicta-RoadImageDatabase\After-Rain\after_rain%05d.tif").arg(arg1));
 
     cv::Mat rawImg;
-    QColor colorSetting;
 
     rawImg = cv::imread(this->rawFiles.at(arg1).toLatin1().data());
     //rawImg = cv::resize();
     double alpha = ui->horizontalSlider_plendAlpha->value()/100.0;
 
     this->roadDrawer->setAlpha(alpha);
-
-    if ( ui->checkBox_roadLabel->isChecked() ) {
-        // may make it very slow, resize first may be help
-
-        //color = widget.palette().color(QPalette.Background);
-        colorSetting = ui->toolButton_roadColor->palette().background().color();
-        // colorSetting = ui->toolButton_carBoxColor->palette().button().style().BackgroundColorRole;
-                //->palette().color(QToolButton::backgroundRole());
-        // cv::Scalar color2 = cv::Scalar(colorSetting.red(),colorSetting.green(), colorSetting.blue());
-        this->roadDrawer->setColorMap(QColor(255, 255, 255), colorSetting ); // QColor(255, 170, 255)
-    }
-
     this->roadDrawer->drawResult(arg1,rawImg);
     ui->label_rawdata->imshow(rawImg);
 
@@ -834,7 +821,11 @@ void MainWindow::on_actionLoad_triggered()
     qDebug()<<"load ok";
     ui->comboBox_datasetName->addItems(loader.getNames());
 
-    this->roadDrawer->loadResultFile(this->roadGtFiles); // TODO: remove roadGtFiles
+    // Drawers
+    if (ui->checkBox_roadLabel->isChecked()) {
+        this->roadDrawer->loadResultFile(this->roadGtFiles); // TODO: remove roadGtFiles
+    }
+
 }
 
 void MainWindow::on_comboBox_datasetName_currentIndexChanged(int index)
@@ -895,10 +886,29 @@ void MainWindow::on_toolButton_roadColor_clicked()
                           + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";");
     ui->toolButton_roadColor->setStyleSheet(s);
     ui->toolButton_roadColor->update();
+
+    //
+    if(ui->checkBox_roadLabel->isChecked()) on_checkBox_roadLabel_toggled(1);
 }
 
 void MainWindow::on_toolButton_carBoxColor_clicked()
 {
     QColor color = UI_Utils::colorPicker(ui->toolButton_carBoxColor);
     qDebug() << color;
+}
+
+void MainWindow::on_checkBox_roadLabel_toggled(bool checked)
+{
+    if (checked) {
+        // may make it very slow, resize first may be help
+        QColor colorSetting = ui->toolButton_roadColor->palette().background().color();
+        this->roadDrawer->setColorMap(QColor(255, 255, 255), colorSetting ); // QColor(255, 170, 255)
+    } // TODO: else don't show road label
+}
+
+void MainWindow::on_checkBox_keepBackground_toggled(bool checked)
+{
+    if (checked) {
+
+    }
 }

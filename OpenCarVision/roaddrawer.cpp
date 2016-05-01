@@ -27,13 +27,6 @@ RoadDrawer::drawResult(int imgID, Mat& rawImg)
     cv::Mat gtImg = cv::imread(this->roadResFiles.at(imgID).toLatin1().data(), CV_LOAD_IMAGE_COLOR);
     // already a color image cv::cvtColor ( gtImg, colorGtImg, CV_GRAY2BGR );// bw to rgb
 
-//    for(auto c : colorMap.keys()) {
-//        cv::Scalar color1 = CV_Utils::qcolor2scalar(c);
-//        cv::Scalar color2 = CV_Utils::qcolor2scalar(colorMap.value(c));
-
-//        gtImg.setTo(color2, maskIfEq(gtImg, color1));
-//    }
-
     QMapIterator<QColor, QColor> c(colorMap);
     while (c.hasNext()) {
         c.next();
@@ -43,5 +36,13 @@ RoadDrawer::drawResult(int imgID, Mat& rawImg)
         gtImg.setTo(color2, maskIfEq(gtImg, color1));
     }
 
+    cv::Mat isbackground = maskIfEq(gtImg, cv::Scalar(0,0,0));
+    // cv::Mat background;
+    // cv::bitwise_not(rawImg, background, isbackground); // rawImg(rawImg ~= backgournd) = 0;
+    cv::add(rawImg, gtImg, gtImg, isbackground);
+
     addWeighted( rawImg, alpha, gtImg, 1.0 - alpha, 0.0, rawImg); // addingImg --> rawImg
 }
+
+
+

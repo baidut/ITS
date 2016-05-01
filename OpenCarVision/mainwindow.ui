@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>889</width>
-    <height>769</height>
+    <height>741</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -134,38 +134,7 @@
               <string>Pixel-wise Label</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_24">
-              <item row="0" column="0">
-               <widget class="QCheckBox" name="checkBox_roadLabel">
-                <property name="text">
-                 <string>Road</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="checkBox_5">
-                <property name="text">
-                 <string>Vegetation</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QToolButton" name="toolButton_5">
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 85, 255);</string>
-                </property>
-                <property name="text">
-                 <string>...</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="checkBox_6">
-                <property name="text">
-                 <string>Sky</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
+              <item row="3" column="2">
                <widget class="QToolButton" name="toolButton_6">
                 <property name="styleSheet">
                  <string notr="true">color: rgb(255, 85, 255);</string>
@@ -182,6 +151,53 @@
                 </property>
                 <property name="text">
                  <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QCheckBox" name="checkBox_5">
+                <property name="text">
+                 <string>Vegetation</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QToolButton" name="toolButton_5">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 85, 255);</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="checkBox_roadLabel">
+                <property name="text">
+                 <string>Road</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="checkBox_6">
+                <property name="text">
+                 <string>Sky</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="3">
+               <widget class="QCheckBox" name="checkBox_keepBackground">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If off, the background will be labeled black, otherwise the background will be kept from labeling.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Keep background</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -578,8 +594,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>205</width>
-                <height>282</height>
+                <width>250</width>
+                <height>355</height>
                </rect>
               </property>
               <attribute name="label">
@@ -962,8 +978,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>100</width>
+                <height>30</height>
                </rect>
               </property>
               <attribute name="label">
